@@ -1,18 +1,16 @@
-import { getAllDenominaciones } from "@/actions/denominacines-actions";
-import { getAllProducts } from "@/actions/productos-actions";
-import { getAllTipos } from "@/actions/tpos-action";
-
+import { PacificoFont, titleFont } from "@/config/fonts";
 
 export default async function Home() {
-  const tipos=await getAllTipos();
-  console.log(tipos);
-  const productos=await getAllProducts();
-  console.log(productos);
-  const denominaciones=await getAllDenominaciones();
-  console.log(denominaciones);
+  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl">Home</h1>
+    <main className="">
+      <div className="py-20 w-11/12 mx-auto rounded-lg">
+       
+          <img src="/portada.jpg" className="w-full h-auto rounded-xl object-cover"/>
+         
+        
+        <h1 className={`${PacificoFont.className} text-shadow-title -mt-60 text-center text-7xl italic text-yellow-400 font-bold`}>El rincón del vino</h1>
+      </div>
     </main>
   );
 }
