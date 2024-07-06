@@ -24,11 +24,11 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white border opacity-95 w-full shadow-md z-50 fixed">
+      <nav className="py-1 bg-white border opacity-95 w-full shadow-md z-50 fixed">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1">
           <Link href="/" className="flex items-center">
-            <span className={`${PacificoFont.className} hidden lg:block text-3xl font-semibold whitespace-nowrap`}>
-              El rincón de del vino
+            <span className={`${PacificoFont.className} hidden lg:block text-4xl font-semibold whitespace-nowrap text-gray-900`}>
+              El rincón del vino
             </span>
           </Link>
 

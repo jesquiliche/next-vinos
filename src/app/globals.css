@@ -15,7 +15,7 @@
 }
 
 .btn-primary {
-  @apply block bg-yellow-300 hover:bg-yellow-400 text-gray-950 font-bold rounded-lg p-2 w-full text-center;
+  @apply block bg-gray-900 hover:bg-gray-700 text-gray-50 font-bold rounded-md p-2 w-full text-center;
 }
 
 .form-control {
