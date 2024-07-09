@@ -1,4 +1,4 @@
-import { getAllProducts } from "@/actions/productos-actions";
+import { getAllProducts, getAllProductsDetails } from "@/actions/productos-actions";
 import React from "react";
 
 import { Producto } from "@/app/interfaces/Product";
@@ -7,7 +7,9 @@ import Link from "next/link";
 import ProductView from "./productView";
 
 export const ProductsIndex = async () => {
+
   const products: Producto[] = await getAllProducts();
+  const productsDeteails=await getAllProductsDetails()  
   return (
     <>
       <div className="flex justify-center">
@@ -19,7 +21,7 @@ export const ProductsIndex = async () => {
       </div>
 
       <h1
-        className={`${titleFont.className} mb-5 text-shadow-title text-center text-3xl italic text-gray-900 font-bold`}
+        className={`${titleFont.className} m-5 text-shadow-title text-center text-3xl italic text-gray-900 font-bold`}
       >
         Nuestra selección
       </h1>

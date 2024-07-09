@@ -25,8 +25,8 @@ const ProductView = ({ id, imagen, nombre, precio, graduacion, ano }: Producto) 
           <p>Año: {ano}</p>
         </div>
         <div className="mt-2">
-          <Link href="/" className="btn-primary">
-            Comprar
+          <Link href={`/product/${id.toString()}`} className="btn-primary">
+            Ver
           </Link>
         </div>
       </div>
