@@ -16,4 +16,18 @@ export async function getAllDenominaciones(): Promise<denominaciones[]> {
   }
 }
 
+export async function getDenominacionById(id: number): Promise<denominaciones | null> {
+  try {
+    const denominacion = await prisma.denominaciones.findUnique({
+      where: { id: BigInt(id) },
+    });
+    return denominacion;
+  } catch (error) {
+    console.error(`Error al obtener la denominación con id ${id}:`, error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 // Ejemplo de uso

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Producto } from '@/app/interfaces/Product'
 import Link from 'next/link'
+import { titleFont } from '@/config/fonts'
 
 const ProductView = ({ id, imagen, nombre, precio, graduacion, ano }: Producto) => {
   return (
@@ -19,7 +20,7 @@ const ProductView = ({ id, imagen, nombre, precio, graduacion, ano }: Producto) 
           />
         </div>
         <div>
-          <h2 className="text-lg font-bold text-center">{nombre}</h2>
+          <h2 className={`${titleFont.className} text-lg font-bold text-center`}>{nombre}</h2>
           <p className="font-bold">Precio: {precio.toString()}</p>
           <p>Graduación: {graduacion.toString()}</p>
           <p>Año: {ano}</p>

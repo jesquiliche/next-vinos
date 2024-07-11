@@ -99,8 +99,8 @@ const Navbar = () => {
                       denominaciones.map((d) => (
                         <li key={d.id}>
                           <Link
-                            href={`/denominaciones/${d.id}`}
-                            className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
+                            href={`/Tipos/${d.id}`}
+                            className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-gray-900"
                             onClick={() => setPaisMenuOpen(false)}
                           >
                             {d.nombre}

@@ -1,7 +1,7 @@
 "use server";
 
 import { ProductoDetalle } from "@/app/interfaces/Product";
-import { PrismaClient, productos } from "@prisma/client";
+import { PrismaClient, productos,tipos } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -46,8 +46,44 @@ export async function getProductDetailsById(id:any): Promise<ProductoDetalle | n
   }
 }
 
+
+export async function getProductDetailsByTipoId(id: any): Promise<ProductoDetalle[] | null> {
+  try {
+    const productos = await prisma.productos.findMany({
+      where: {
+        tipos: {
+          id:id,
+        },
+      },
+      include: { denominaciones: true, tipos: true },
+    });
+    return productos;
+  } catch (error) {
+    console.error("Error al obtener los productos por tipoId:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export async function getProductsByDenominacionId(denominacionId: number): Promise<ProductoDetalle[]> {
+  try {
+    const productos = await prisma.productos.findMany({
+      where: {
+        denominacion_id: BigInt(denominacionId),
+      },
+      include: { denominaciones: true, tipos: true },
+    });
+    return productos;
+  } catch (error) {
+    console.error(`Error al obtener los productos con denominacionId ${denominacionId}:`, error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 // Ejemplo de uso
-getAllProductsDetails()
+/* getAllProductsDetails()
   .then(tipos => {
     console.log("Todos los productos:", tipos);
   })
@@ -68,3 +104,14 @@ getProductDetailsById(productoId)
   .catch(error => {
     console.error("Error al buscar el producto:", error);
   });
+*/
+  const tipoId = 1; // Ejemplo de tipoId
+getProductDetailsByTipoId(tipoId).then(productos => {
+  if (productos) {
+    console.log(`Productos con tipoId ${tipoId}:`, productos);
+  } else {
+    console.log(`No se encontraron productos con tipoId ${tipoId}.`);
+  }
+}).catch(error => {
+  console.error('Error:', error);
+});

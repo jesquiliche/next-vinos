@@ -24,3 +24,30 @@ getAllTipos()
   .catch(error => {
     console.error("Error:", error);
   });
+
+
+  // Función para obtener un tipo por su ID
+  export async function getTipoById(id: any): Promise<tipos | null> {
+    try {
+      const tipo = await prisma.tipos.findUnique({
+        where: { id: BigInt(id) },
+      });
+      return tipo;
+    } catch (error) {
+      console.error(`Error al obtener el tipo con id ${id}:`, error);
+      throw error;
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
+  
+const id = 1; // Ejemplo de ID
+getTipoById(id).then(tipo => {
+  if (tipo) {
+    console.log(`Tipo con id ${id}:`, tipo);
+  } else {
+    console.log(`Tipo con id ${id} no encontrado.`);
+  }
+}).catch(error => {
+  console.error('Error:', error);
+});

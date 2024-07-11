@@ -1,4 +1,5 @@
 import { getProductDetailsById } from "@/actions/productos-actions";
+import { titleFont } from "@/config/fonts";
 import Link from "next/link";
 import { Interface } from "readline";
 
@@ -10,7 +11,7 @@ interface Props {
 
 export default async function Home({ params }: Props) {
   const id = params.id;
-  console.log(id);
+  
   const product = await getProductDetailsById(id);
 
   return (
@@ -24,14 +25,14 @@ export default async function Home({ params }: Props) {
           />
         </div>
         <div className="mt-16 col-span-2 mx-auto w-10/12 ">
-          <h1 className="text-4xl font-semibold">{product?.nombre}</h1>
-          <h1 className="text-3xl font-semibold mt-5">
+          <h1 className={`${titleFont.className} text-shadow-title text-4xl font-semibold`}>{product?.nombre}</h1>
+          <h1 className={`${titleFont.className} text-shadow-title text-3xl font-semibold mt-5`}>
             {product?.denominaciones.nombre}
           </h1>
           <p className="mt-2  text-2xl">{product?.descripcion}</p>
-          <div className="grid grid-cols-3 border border-gray-400 rounded-md p-4 mt-5">
+          <div className="grid grid-cols-3 border border-gray-400 rounded-md p-4 mt-5 bg-gray-200">
             <div className="col-span-3">
-              <h2 className="text-3xl font-semibold">Características</h2>
+              <h2 className={`${titleFont.className} text-shadow-title text-3xl font-semibold`}>Características</h2>
             </div>
             <p className="mt-5  text-2xl">
               <b>Precio : </b>
@@ -52,6 +53,10 @@ export default async function Home({ params }: Props) {
             <p className="mt-5  text-2xl">
               <b>Tipo : </b>
               {product?.tipos.nombre}
+            </p>
+            <p className="mt-5  text-2xl">
+              <b>Año : </b>
+              {product?.ano}
             </p>
           </div>
           <div className="grid grid-cols-3 gap-4 mt-5">
