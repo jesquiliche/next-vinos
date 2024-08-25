@@ -22,8 +22,13 @@ export default async function Home() {
           </Link>
         </div>
       </div>
+      <div className="flex ">
+        <div>
+          Filtro
+        </div>
       <div className="mt-10">
         <ProductsIndex />
+      </div>
       </div>
     </main>
   );

@@ -1,9 +1,9 @@
 'use server'
 
 import { PrismaClient } from '@prisma/client';
-import { denominaciones } from "../../prisma/seeders/denominaciones";
-import { productos } from "../../prisma/seeders/productos";
-import { tipos } from "../../prisma/seeders/tipos";
+import { denominaciones } from "./denominaciones";
+import { productos } from "./productos";
+import { tipos } from "./tipos";
 
 const prisma = new PrismaClient();
 

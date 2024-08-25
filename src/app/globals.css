@@ -13,9 +13,11 @@
 .hover-line:hover {
   @apply border-yellow-300;
 }
-
 .btn-primary {
-  @apply block bg-gray-900 hover:bg-gray-700 text-gray-50 font-bold rounded-md p-2 w-full text-center;
+  @apply block bg-gray-900 hover:bg-gray-600 text-gray-50 font-bold rounded-md p-2 w-full text-center;
+}
+.form-control {
+  @apply border-gray-800 border-2 rounded-md mx-2;
 }
 
 .form-control {
