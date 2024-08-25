@@ -41,8 +41,6 @@ export async function dbSeeder() {
         });
     }
 
-    console.log(await prisma.denominaciones.count());
-
 
     // Inserta los tipos en la base de datos
     for (const tipo of tipos) {

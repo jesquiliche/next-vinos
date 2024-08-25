@@ -15,9 +15,9 @@ const ProductView = ({
     <>
       <div
         key={id.toString()}
-        className="border-gray-400 border rounded-md p-4 flex flex-col justify-between"
+        className="h-full border-gray-400 border rounded-md p-4 flex flex-col justify-between"
       >
-        <p className="text-shadow-title text-2xl font-bold italic text-red-600">
+        <p className="text-shadow-title text-3xl font-bold italic text-red-600">
           {precio.toString()} €
         </p>
         <div>

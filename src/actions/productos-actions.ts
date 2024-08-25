@@ -82,36 +82,138 @@ export async function getProductsByDenominacionId(denominacionId: number): Promi
     await prisma.$disconnect();
   }
 }
-// Ejemplo de uso
-/* getAllProductsDetails()
-  .then(tipos => {
-    console.log("Todos los productos:", tipos);
-  })
-  .catch(error => {
-    console.error("Error:", error);
-  });
 
-const productoId = 1; // Ejemplo de ID de producto
+interface FilterOptions {
+  id?: bigint;
+  nombre?: string;
+  bodega?: string;
+  descripcion?: string;
+  maridaje?: string;
+  precioMin?: number;
+  precioMax?: number;
+  graduacionMin?: number;
+  graduacionMax?: number;
+  ano?: number;
+  sabor?: string;
+  tipo_id?: bigint;
+  denominacion_id?: bigint;
+}
 
-getProductDetailsById(productoId)
-  .then(producto => {
-    if (producto) {
-      console.log("Producto encontrado:", producto);
-    } else {
-      console.log("Producto no encontrado");
-    }
-  })
-  .catch(error => {
-    console.error("Error al buscar el producto:", error);
-  });
-*/
-  const tipoId = 1; // Ejemplo de tipoId
-getProductDetailsByTipoId(tipoId).then(productos => {
-  if (productos) {
-    console.log(`Productos con tipoId ${tipoId}:`, productos);
-  } else {
-    console.log(`No se encontraron productos con tipoId ${tipoId}.`);
+export async function getFilteredProducts(filters: FilterOptions) {
+  const whereClause: any = {};
+
+  // Filtrado por ID
+  if (filters.id) {
+    whereClause.id = filters.id;
   }
-}).catch(error => {
-  console.error('Error:', error);
-});
+  
+  // Filtrado por nombre (ejemplo de contains)
+  if (filters.nombre) {
+    whereClause.nombre = { contains: filters.nombre };
+  }
+
+  // Filtrado por bodega
+  if (filters.bodega) {
+    whereClause.bodega = { contains: filters.bodega };
+  }
+
+  // Filtrado por descripción
+  if (filters.descripcion) {
+    whereClause.descripcion = { contains: filters.descripcion };
+  }
+
+  // Filtrado por maridaje
+  if (filters.maridaje) {
+    whereClause.maridaje = { contains: filters.maridaje };
+  }
+
+  // Filtrado por precio
+  if (filters.precioMin !== undefined || filters.precioMax !== undefined) {
+    whereClause.precio = {
+      ...(filters.precioMin !== undefined ? { gte: filters.precioMin } : {}),
+      ...(filters.precioMax !== undefined ? { lte: filters.precioMax } : {}),
+    };
+  }
+
+  // Filtrado por graduación
+  if (filters.graduacionMin !== undefined || filters.graduacionMax !== undefined) {
+    whereClause.graduacion = {
+      ...(filters.graduacionMin !== undefined ? { gte: filters.graduacionMin } : {}),
+      ...(filters.graduacionMax !== undefined ? { lte: filters.graduacionMax } : {}),
+    };
+  }
+
+  // Filtrado por año
+  if (filters.ano) {
+    whereClause.ano = filters.ano;
+  }
+
+  // Filtrado por sabor
+  if (filters.sabor) {
+    whereClause.sabor = { contains: filters.sabor };
+  }
+
+  // Filtrado por tipo_id
+  if (filters.tipo_id) {
+    whereClause.tipo_id = filters.tipo_id;
+  }
+
+  // Filtrado por denominacion_id
+  if (filters.denominacion_id) {
+    whereClause.denominacion_id = filters.denominacion_id;
+  }
+
+  // Realizamos la consulta con el whereClause construido dinámicamente
+  const products = await prisma.productos.findMany({
+    where: whereClause,
+  });
+
+  return products;
+}
+
+
+
+// Función asíncrona para manejar la lógica
+async function fetchFilteredProducts() {
+  try {
+    // Ejemplos de valores de filtros (algunos pueden ser undefined)
+    const nombre = undefined; // Filtra por nombre
+    const precioMin = 5.00;     // Filtra por precio mínimo
+    const precioMax = undefined; // Ejemplo de campo no informado
+    const graduacionMin = 15;  // Filtra por graduación mínima
+    const graduacionMax = 15.0;  // Filtra por graduación máxima
+    const ano = undefined;       // Ejemplo de campo no informado
+    const sabor = undefined;     // Ejemplo de campo no informado
+    const tipoIdString = "1";    // Filtra por tipo (como string)
+    const denominacionIdNumber = 2; // Filtra por denominación (como número)
+
+    // Conversión a BigInt
+    const tipo_id = tipoIdString ? BigInt(tipoIdString) : undefined;
+    const denominacion_id = denominacionIdNumber ? BigInt(denominacionIdNumber) : undefined;
+
+    // Construir dinámicamente el objeto filters
+    const filters: { [key: string]: any } = {};
+
+    if (nombre) filters.nombre = { contains: nombre };
+    if (precioMin) filters.precio = { gte: precioMin };
+    if (precioMax) filters.precio = { ...filters.precio, lte: precioMax };
+    if (graduacionMin) filters.graduacion = { gte: graduacionMin };
+    if (graduacionMax) filters.graduacion = { ...filters.graduacion, lte: graduacionMax };
+    if (ano) filters.ano = ano;
+    if (sabor) filters.sabor = { contains: sabor };
+    if (tipo_id) filters.tipo_id = tipo_id;
+    if (denominacion_id) filters.denominacion_id = denominacion_id;
+
+    // Llamada a la función con los filtros dinámicos
+    const products = await getFilteredProducts(filters);
+
+    // Manejo de los productos filtrados
+    console.log("Productos filtrados:", products);
+  } catch (error) {
+    // Manejo del error
+    console.error("Error al obtener los productos:", error);
+  }
+}
+
+// Ejecución de la función asíncrona
+fetchFilteredProducts();

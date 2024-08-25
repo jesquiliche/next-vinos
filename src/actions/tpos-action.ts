@@ -16,16 +16,6 @@ export async function getAllTipos(): Promise<tipos[]> {
   }
 }
 
-// Ejemplo de uso
-getAllTipos()
-  .then(tipos => {
-    console.log("Todos los tipos:", tipos);
-  })
-  .catch(error => {
-    console.error("Error:", error);
-  });
-
-
   // Función para obtener un tipo por su ID
   export async function getTipoById(id: any): Promise<tipos | null> {
     try {
@@ -41,13 +31,3 @@ getAllTipos()
     }
   }
   
-const id = 1; // Ejemplo de ID
-getTipoById(id).then(tipo => {
-  if (tipo) {
-    console.log(`Tipo con id ${id}:`, tipo);
-  } else {
-    console.log(`Tipo con id ${id} no encontrado.`);
-  }
-}).catch(error => {
-  console.error('Error:', error);
-});
