@@ -190,43 +190,51 @@ export const ProductsIndex: React.FC = () => {
               <input
                 type="range"
                 name="precioMin"
+                max="50"
                 value={formData.precioMin || "0"}
                 onChange={handleChange}
                 className="border-gray-400 bg-gray-100 rounded-md mb-4"
               />
+              <p className="text-blue-600">{formData.precioMin}</p>
             </div>
             <div className="flex justify-between">
               <label className="font-semibold">Precio max : </label>
               <input
                 type="range"
                 step="0.10"
+                max="50"
                 name="precioMax"
                 value={formData.precioMax || "0"}
                 onChange={handleChange}
                 className="border-gray-400 bg-gray-100 rounded-md mb-4"
               />
+              <p className="text-blue-600">{formData.precioMax}</p>
             </div>
             <div className="flex justify-between">
-              <label className="font-semibold">Graduación mínima : </label>
+              <label className="font-semibold">Graduación min : </label>
               <input
                 type="range"
                 step="0.1"
+                max="20"
                 name="graduacionMin"
                 value={formData.graduacionMin || "0"}
                 onChange={handleChange}
                 className="border-gray-400 bg-gray-100 rounded-md mb-4"
               />
+              <p className="text-blue-600">{formData.graduacionMin}</p>
             </div>
             <div className="flex justify-between">
-              <label className="font-semibold">Graduación máxima : </label>
+              <label className="font-semibold">Graduación max : </label>
               <input
                 type="range"
                 step="0.1"
                 name="graduacionMax"
+                max="20"
                 value={formData.graduacionMax || "0"}
                 onChange={handleChange}
                 className="border-gray-400 bg-gray-100 rounded-md mb-4"
               />
+              <p className="text-blue-600">{formData.graduacionMax}</p>
             </div>
             <div className="flex justify-between">
               <label className="font-semibold">Año : </label>
