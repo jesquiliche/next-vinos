@@ -31,7 +31,7 @@ const ProductView = ({
         </div>
         <div>
           <h2
-            className={`${titleFont.className} text-lg font-bold text-center`}
+            className={`text-lg font-bold text-center truncate`}
           >
             {nombre}
           </h2>
