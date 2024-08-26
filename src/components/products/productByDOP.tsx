@@ -1,18 +1,17 @@
-import { getAllProducts, getAllProductsDetails, getProductsByDenominacionId } from "@/actions/productos-actions";
+import {
+  getProductsByDenominacionId,
+} from "@/actions/productos-actions";
 import React from "react";
 
 import { Producto } from "@/app/interfaces/Product";
-import { PacificoFont, titleFont } from "@/config/fonts";
-import Link from "next/link";
 import ProductView from "./productView";
 
 interface Props {
-    id:number
+  id: number;
 }
-export const ProductsByDOP = async ({id}:Props) => {
-
+export const ProductsByDOP = async ({ id }: Props) => {
   const products: Producto[] = await getProductsByDenominacionId(id);
-  
+
   return (
     <>
       <div className="grid grid-cols-4 gap-4 mx-auto">

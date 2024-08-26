@@ -1,9 +1,6 @@
 import { getDenominacionById } from "@/actions/denominacines-actions";
-import { getProductDetailsById } from "@/actions/productos-actions";
-import { getTipoById } from "@/actions/tpos-action";
-import Link from "next/link";
-import { Interface } from "readline";
-import { PacificoFont, titleFont } from "@/config/fonts";
+
+import {titleFont } from "@/config/fonts";
 import { ProductsByDOP } from "@/components/products/productByDOP";
 
 interface Props {
@@ -27,7 +24,7 @@ export default async function Home({ params }: Props) {
           alt="logo"
         />
       </div>
-      <h1 className={`${titleFont.className} py-5 text-shadow-title text-4xl font-bold text-center`}>
+      <h1 className={`py-5 text-shadow-title text-4xl font-bold text-center`}>
         D.O.P {tipo?.nombre}
       </h1>
       <h2 className="py-5 text-lg text-center">{tipo?.descripcion}</h2>
