@@ -302,7 +302,7 @@ export const ProductsIndex: React.FC = () => {
             </div>
           </form>
         </div>
-        <div className="grid grid-cols-3 gap-4 w-9/12 mx-auto">
+        <div className="grid grid-cols-4 gap-4 w-9/12 mx-auto">
           {products.map((p: Producto) => (
             <div key={p.id}>
               <ProductView
