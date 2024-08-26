@@ -39,10 +39,13 @@ const ProductView = ({
           <p>Graduación: {graduacion.toString()}</p>
           <p>Año: {ano}</p>
         </div>
-        <div className="mt-2">
+        <div className="flex space-x-2">
           <Link href={`/product/${id.toString()}`} className="btn-primary">
             Ver
           </Link>
+          <button className="btn-primary">
+            Añadir
+          </button>
         </div>
       </div>
     </>

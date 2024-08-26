@@ -13,6 +13,17 @@ export interface Producto {
     sabor?: string | null;
     imagen: string;
   }
+
+  export interface CartProduct {
+    id: number;
+    nombre: string;
+    precio: Decimal;
+    imagen: string;
+    quantity: number;
+  }
+
+
+  
   
   
 export interface ProductoDetalle{
