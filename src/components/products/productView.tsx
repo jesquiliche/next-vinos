@@ -3,8 +3,6 @@ import React from "react";
 import { Producto } from "@/app/interfaces/Product";
 import Link from "next/link";
 import useCartStore from "@/store/useCartstore"; // Asegúrate de usar la ruta correcta
-import { FaShoppingCart } from "react-icons/fa";
-import { FaShopLock } from "react-icons/fa6";
 
 const ProductView = ({
   id,
@@ -30,13 +28,10 @@ const ProductView = ({
   return (
     <div
       key={id.toString()}
-      className="h-full border-gray-400 border rounded-md p-4 flex flex-col justify-between"
+      className="h-full rounded-md p-4 flex flex-col justify-between"
     >
       <div>
         <Link href={`/product/${id.toString()}`}>
-          <p className="text-shadow-title text-3xl font-bold italic text-red-600">
-            {precio.toString()} €
-          </p>
           <div>
             <img
               src={imagen}
@@ -47,16 +42,20 @@ const ProductView = ({
             />
           </div>
           <div>
+          <p className="text-center text-shadow-title text-2xl font-bold italic text-red-600 mb-4">
+            {precio.toString()} €
+          </p>
+         
             <h2 className="text-lg font-bold text-center truncate">{nombre}</h2>
 
             <p>Graduación: {graduacion.toString()}</p>
-            <p>Año: {ano}</p>
+            <p className="mb-3">Año: {ano}</p>
           </div>
         </Link>
       </div>
 
       <button
-        className="btn-primary flex items-center justify-center space-x-2"
+        className="btn-primary flex items-center justify-center space-x-2 mt-4"
         onClick={handleAddToCart}
       >
             <span>Añadir al carrito</span>

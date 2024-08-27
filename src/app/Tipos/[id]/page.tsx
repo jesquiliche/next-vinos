@@ -1,7 +1,6 @@
 import { getDenominacionById } from "@/actions/denominacines-actions";
-
-import {titleFont } from "@/config/fonts";
-import { ProductsByDOP } from "@/components/products/productByDOP";
+import { ProductsIndex } from "@/components/products";
+import { PacificoFont } from "@/config/fonts";
 
 interface Props {
   params: {
@@ -11,6 +10,9 @@ interface Props {
 
 export default async function Home({ params }: Props) {
   const id = +params.id;
+  const initialFilters = {
+    denominacion_id: BigInt(id), // Suponiendo que 2 es el ID de una denominación
+  };
   console.log(id);
   //const product = await getProductDetailsById(id);
   const tipo = await getDenominacionById(+id);
@@ -20,15 +22,17 @@ export default async function Home({ params }: Props) {
       <div className="flex justify-center">
         <img
           src="/logo.png"
-          className="h-40 w-40 border border-gray-500 rounded-full shadow-xl "
+          className="h-28 w-28 border border-gray-500 rounded-full shadow-xl "
           alt="logo"
         />
       </div>
-      <h1 className={`py-5 text-shadow-title text-4xl font-bold text-center`}>
+      <h1
+        className={`${PacificoFont.className} py-4 text-shadow-title text-4xl font-bold text-center`}
+      >
         D.O.P {tipo?.nombre}
       </h1>
-      <h2 className="py-5 text-lg text-center">{tipo?.descripcion}</h2>
-      <ProductsByDOP id={id}/>
+      <h2 className="text-lg text-center">{tipo?.descripcion}</h2>
+      <ProductsIndex initialFilters={initialFilters} />
     </div>
   );
 }

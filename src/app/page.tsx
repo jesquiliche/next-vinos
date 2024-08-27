@@ -3,7 +3,7 @@
 import React from 'react';
 import { titleFont } from '@/config/fonts';
 import { ProductsIndex } from '@/components/products';
-
+import Sections from '@/components/sections/sections';
 
 // Definimos el componente Home
 const Home: React.FC = () => {
@@ -22,8 +22,17 @@ const Home: React.FC = () => {
           El rincón del vino
         </h1>
       </div>
+      <div className="flex justify-center mx-auto w-10/12 mt-32">
+        <img
+          src="/logo.png"
+          className="h-60 w-60 border border-gray-500 rounded-full shadow-xl"
+          alt="logo"
+        />
+      </div>
+      <Sections />
+  
       <div className="w-11/12 mx-auto">
-        <ProductsIndex />
+        <ProductsIndex/>
       </div>
      
     </main>
