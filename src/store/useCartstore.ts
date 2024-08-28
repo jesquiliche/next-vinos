@@ -20,7 +20,8 @@ interface CartState {
   addToCart: (product: ProductCart) => void;
   removeFromCart: (productId: number) => void;
   clearCart: () => void;
-  getTotalCost: () => number; // Función para obtener el costo total
+  updateProductQuantity: (productId: number, quantity: number) => void;
+  getTotalCost: () => number;
 }
 
 const useCartStore = create<CartState>()(
@@ -56,7 +57,7 @@ const useCartStore = create<CartState>()(
           const existingProduct = state.cart.find(
             (item) => item.id === productId
           );
-          if (!existingProduct) return state; // Return current state if product not found
+          if (!existingProduct) return state;
 
           if (existingProduct.quantity > 1) {
             return {
@@ -77,7 +78,18 @@ const useCartStore = create<CartState>()(
 
       clearCart: () => set({ cart: [], totalItems: 0 }),
 
-      // Nueva función para obtener el costo total del carrito
+      updateProductQuantity: (productId: number, quantity: number) =>
+        set((state) => {
+          const updatedCart = state.cart.map((item) =>
+            item.id === productId ? { ...item, quantity } : item
+          );
+          const totalItems = updatedCart.reduce(
+            (total, item) => total + item.quantity,
+            0
+          );
+          return { cart: updatedCart, totalItems };
+        }),
+
       getTotalCost: () => {
         const { cart } = get();
         return cart.reduce(

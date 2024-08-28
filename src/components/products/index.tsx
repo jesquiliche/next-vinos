@@ -140,7 +140,7 @@ export const ProductsIndex: React.FC<ProductsIndexProps> = ({
     <>
       <div className="py-10">
         <h1
-          className={`${PacificoFont.className} text-shadow-title text-center text-4xl italic text-gray-900 font-bold`}
+          className={`${PacificoFont.className} text-center text-4xl italic text-gray-900 font-bold`}
         >
           Catálogo
         </h1>
