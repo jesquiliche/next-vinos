@@ -5,7 +5,7 @@ import { getAllDenominaciones } from "@/actions/denominacines-actions";
 import Link from "next/link";
 import { tipos, denominaciones } from "@prisma/client";
 import { PacificoFont, titleFont } from "@/config/fonts";
-
+import CartLinkComponent from "./cart/CartLinkComponent";
 
 const Navbar = () => {
   const [tiposMenuOpen, setTiposMenuOpen] = useState(false);
@@ -27,7 +27,15 @@ const Navbar = () => {
       <nav className="py-1 bg-white border opacity-95 w-full shadow-md z-50 fixed">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1">
           <Link href="/" className="flex items-center">
-            <span className={`${PacificoFont.className} hidden lg:block text-4xl font-semibold whitespace-nowrap text-gray-900`}>
+            
+            <img
+              src="/logo.png"
+              className="h-14 w-14 border mr-3 border-gray-500 rounded-full shadow-xl"
+              alt="logo"
+            />
+            <span
+              className={`${PacificoFont.className} hidden lg:block text-4xl font-semibold whitespace-nowrap text-gray-900`}
+            >
               El rincón del vino
             </span>
           </Link>
@@ -57,14 +65,19 @@ const Navbar = () => {
               />
             </svg>
           </button>
-          <div className="block sm:hidden w-full md:block md:w-auto" id="navbar-dropdown">
-            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 bg-white md:flex-row md:space-x-16 md:mt-0"> {/* Ajuste aquí */}
+          <div
+            className="block sm:hidden w-full md:block md:w-auto"
+            id="navbar-dropdown"
+          >
+            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 bg-white md:flex-row md:space-x-16 md:mt-0">
+              {" "}
+              {/* Ajuste aquí */}
               <li className="md:absolute md:-mx-8">
                 <button
                   id="dropdownNavbarLink"
-                  onClick={() =>{ 
+                  onClick={() => {
                     setPaisMenuOpen(!paisMenuOpen);
-                    setTiposMenuOpen(false)
+                    setTiposMenuOpen(false);
                   }}
                   className="flex items-center justify-between py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 md:w-auto"
                 >
@@ -115,7 +128,7 @@ const Navbar = () => {
                   id="dropdownNavbarLink"
                   onClick={() => {
                     setTiposMenuOpen(!tiposMenuOpen);
-                    setPaisMenuOpen(false)
+                    setPaisMenuOpen(false);
                   }}
                   className="flex items-center justify-between w-full py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 md:w-auto"
                 >
@@ -141,7 +154,9 @@ const Navbar = () => {
                   id="dropdownTipos"
                   tabIndex={1}
                   onMouseLeave={() => setTiposMenuOpen(false)}
-                  className={`z-10 ${tiposMenuOpen ? "block" : "hidden"} absolute font-normal divide-y divide-gray-100 rounded-lg shadow`}
+                  className={`z-10 ${
+                    tiposMenuOpen ? "block" : "hidden"
+                  } absolute font-normal divide-y divide-gray-100 rounded-lg shadow`}
                 >
                   <ul
                     className="border-1 rounded-xl shadow-md bg-white py-1 text-md text-gray-700"
@@ -153,7 +168,6 @@ const Navbar = () => {
                           <Link
                             href={`/Tipos/${t.id}`}
                             className="block text-dark hover:text-white px-4 hover:bg-yellow-400 hover:rounded-md"
-                            
                           >
                             {t.nombre}
                           </Link>
@@ -161,6 +175,9 @@ const Navbar = () => {
                       ))}
                   </ul>
                 </div>
+              </li>
+              <li>
+                <CartLinkComponent />
               </li>
               <li>
                 <button
@@ -197,34 +214,36 @@ const Navbar = () => {
                   </svg>
                 </button>
                 {/* Menú desplegable de usuario */}
-                <div
-                  id="userMenu"
-                  className="z-10 opacity-100 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
-                >
-                  <ul
-                    className="border-1 rounded-lg shadow-md py-2 text-md text-gray-700"
-                    aria-labelledby="dropdownUserMenu"
+                <div className="flex space-x-2 items-center">
+                  <div
+                    id="userMenu"
+                    className="z-10 opacity-100 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
                   >
-                    <li className="text-md block px-3 text-dark rounded-es-md hover:text-white hover:bg-yellow-400">
-                      {/* Puedes añadir otros elementos aquí */}
-                    </li>
-                    <li>
-                      <Link
-                        href="/Ordenes"
-                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
-                      >
-                        Mis pedidos
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/register"
-                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
-                      >
-                        Registro
-                      </Link>
-                    </li>
-                  </ul>
+                    <ul
+                      className="border-1 rounded-lg shadow-md py-2 text-md text-gray-700"
+                      aria-labelledby="dropdownUserMenu"
+                    >
+                      <li className="text-md block px-3 text-dark rounded-es-md hover:text-white hover:bg-yellow-400">
+                        {/* Puedes añadir otros elementos aquí */}
+                      </li>
+                      <li>
+                        <Link
+                          href="/Ordenes"
+                          className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
+                        >
+                          Mis pedidos
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/register"
+                          className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
+                        >
+                          Registro
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </li>
             </ul>
