@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <>
       <nav className="py-1 bg-white border opacity-95 w-full shadow-md z-50 fixed">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1">
+        <div className="w-11/12 flex flex-wrap items-center justify-between mx-auto p-1">
           <Link href="/" className="flex items-center">
             
             <img
