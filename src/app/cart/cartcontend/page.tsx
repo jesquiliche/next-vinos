@@ -12,6 +12,7 @@ export default function Home() {
   const total = getTotal();
   const removeItem =useCartStore((state)=>state.removeFromCart)
   const updateCantidad = useCartStore((state) => state.updateProductQuantity);
+  const removeAllItems = useCartStore((state)=>state.removeAllFromCart)
 
   return (
     <div className="w-11/12 mx-auto py-20">
@@ -28,7 +29,7 @@ export default function Home() {
                   <p className="text-center font-bold underline truncate ">{p.nombre}</p>
                 </Link>
                 <button
-                  onClick={() => removeItem(p.id)}
+                  onClick={() => removeAllItems(p.id)}
                   className="underline px-4 mt-2 block w-full"
                 >
                   Borrar
