@@ -19,9 +19,9 @@ export default function Home() {
       <h1 className={`${PacificoFont.className} text-center text-4xl`}>
         Carrito
       </h1>
-      <div className="grid grid-cols-8 gap-4">
+      <div className="grid grid-cols-8 gap-">
         <div className="col-span-6">
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 gap-2">
             {cartItems.map((p) => (
               <div key={p.id} className="p-2">
                 <img src={p.imagen} alt={p.nombre} className="w-28 mx-auto" />
@@ -55,6 +55,14 @@ export default function Home() {
             <p>Subtotal: {(total / 1.21).toFixed(2)}</p>
             <p>IVA: {(total - total / 1.21).toFixed(2)}</p>
             <p>Total: {total.toFixed(2)}</p>
+          </div>
+          <div className="flex flex-col space-y-2 mt-2">
+            <Link href="/" className="btn-primary">
+              Seguir comprando
+            </Link>
+            <Link href="/" className="btn-primary">
+              Iniciar orden
+            </Link>
           </div>
         </div>
       </div>

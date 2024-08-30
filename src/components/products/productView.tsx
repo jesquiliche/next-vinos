@@ -3,6 +3,7 @@ import React from "react";
 import { Producto } from "@/app/interfaces/Product";
 import Link from "next/link";
 import useCartStore from "@/store/useCartstore"; // Asegúrate de usar la ruta correcta
+import { useRouter } from 'next/navigation'
 
 const ProductView = ({
   id,
@@ -13,6 +14,7 @@ const ProductView = ({
   ano,
 }: Producto) => {
   const addToCart = useCartStore((state) => state.addToCart);
+  const router = useRouter();
 
   const handleAddToCart = () => {
     const productToAdd = {
@@ -23,6 +25,7 @@ const ProductView = ({
     };
 
     addToCart(productToAdd);
+    router.push(`/cart/cartcontend`);
   };
 
   return (
