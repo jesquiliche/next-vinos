@@ -207,8 +207,6 @@ async function fetchFilteredProducts() {
     // Llamada a la función con los filtros dinámicos
     const products = await getFilteredProducts(filters);
 
-    // Manejo de los productos filtrados
-    console.log("Productos filtrados:", products);
   } catch (error) {
     // Manejo del error
     console.error("Error al obtener los productos:", error);

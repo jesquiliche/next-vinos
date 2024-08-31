@@ -1,17 +1,24 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useEffect, useState, useRef } from "react";
 import { getAllTipos } from "@/actions/tpos-action";
 import { getAllDenominaciones } from "@/actions/denominacines-actions";
 import Link from "next/link";
 import { tipos, denominaciones } from "@prisma/client";
-import { PacificoFont, titleFont } from "@/config/fonts";
+import { PacificoFont } from "@/config/fonts";
 import CartLinkComponent from "./cart/CartLinkComponent";
 
 const Navbar = () => {
   const [tiposMenuOpen, setTiposMenuOpen] = useState(false);
   const [paisMenuOpen, setPaisMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [denominaciones, setDenominaciones] = useState<denominaciones[]>([]);
   const [tipos, setTipos] = useState<tipos[]>([]);
+  
+  // Referencias para los menús
+  const paisMenuRef = useRef<HTMLDivElement>(null);
+  const tiposMenuRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,12 +29,32 @@ const Navbar = () => {
     fetchData();
   }, []);
 
+  // Manejo del clic fuera de los menús
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        paisMenuRef.current &&
+        !paisMenuRef.current.contains(event.target as Node) &&
+        tiposMenuRef.current &&
+        !tiposMenuRef.current.contains(event.target as Node) &&
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setPaisMenuOpen(false);
+        setTiposMenuOpen(false);
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
       <nav className="py-1 bg-white border opacity-95 w-full shadow-md z-50 fixed">
         <div className="w-11/12 flex flex-wrap items-center justify-between mx-auto p-1">
           <Link href="/" className="flex items-center">
-            
             <img
               src="/logo.png"
               className="h-14 w-14 border mr-3 border-gray-500 rounded-full shadow-xl"
@@ -40,7 +67,7 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Menu hamburquesa */}
+          {/* Menu hamburguesa */}
           <button
             data-collapse-toggle="navbar-dropdown"
             type="button"
@@ -65,19 +92,19 @@ const Navbar = () => {
               />
             </svg>
           </button>
+
           <div
             className="block sm:hidden w-full md:block md:w-auto"
             id="navbar-dropdown"
           >
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 bg-white md:flex-row md:space-x-16 md:mt-0">
-              {" "}
-              {/* Ajuste aquí */}
               <li className="md:absolute md:-mx-8">
                 <button
                   id="dropdownNavbarLink"
                   onClick={() => {
                     setPaisMenuOpen(!paisMenuOpen);
                     setTiposMenuOpen(false);
+                    setUserMenuOpen(false);
                   }}
                   className="flex items-center justify-between py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 md:w-auto"
                 >
@@ -98,11 +125,10 @@ const Navbar = () => {
                     />
                   </svg>
                 </button>
-                {/* Dropdown menu de países */}
                 <div
+                  ref={paisMenuRef}
                   id="dropdownNavbar"
                   onMouseLeave={() => setPaisMenuOpen(false)}
-                  onMouseDown={() => setTiposMenuOpen(false)}
                   className={`z-10 opacity-100 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow ${
                     paisMenuOpen ? "block" : "hidden"
                   }`}
@@ -129,6 +155,7 @@ const Navbar = () => {
                   onClick={() => {
                     setTiposMenuOpen(!tiposMenuOpen);
                     setPaisMenuOpen(false);
+                    setUserMenuOpen(false);
                   }}
                   className="flex items-center justify-between w-full py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 md:w-auto"
                 >
@@ -149,8 +176,8 @@ const Navbar = () => {
                     />
                   </svg>
                 </button>
-                {/* Dropdown menu de estilos */}
                 <div
+                  ref={tiposMenuRef}
                   id="dropdownTipos"
                   tabIndex={1}
                   onMouseLeave={() => setTiposMenuOpen(false)}
@@ -182,7 +209,7 @@ const Navbar = () => {
               <li>
                 <button
                   id="dropdownUserMenu"
-                  data-dropdown-toggle="userMenu"
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center justify-between w-full py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 md:w-auto"
                 >
                   <svg
@@ -213,37 +240,38 @@ const Navbar = () => {
                     />
                   </svg>
                 </button>
-                {/* Menú desplegable de usuario */}
-                <div className="flex space-x-2 items-center">
-                  <div
-                    id="userMenu"
-                    className="z-10 opacity-100 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+                <div
+                  ref={userMenuRef}
+                  id="userMenu"
+                  onMouseLeave={() => setUserMenuOpen(false)}
+                  className={`absolute right-0 mt-2 w-44 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow ${
+                    userMenuOpen ? "block" : "hidden"
+                  }`}
+                >
+                  <ul
+                    className="py-2 text-md text-gray-700"
+                    aria-labelledby="dropdownUserMenu"
                   >
-                    <ul
-                      className="border-1 rounded-lg shadow-md py-2 text-md text-gray-700"
-                      aria-labelledby="dropdownUserMenu"
-                    >
-                      <li className="text-md block px-3 text-dark rounded-es-md hover:text-white hover:bg-yellow-400">
-                        {/* Puedes añadir otros elementos aquí */}
-                      </li>
-                      <li>
-                        <Link
-                          href="/Ordenes"
-                          className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
-                        >
-                          Mis pedidos
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/register"
-                          className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
-                        >
-                          Registro
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
+                    <li className="text-md block px-3 text-dark rounded-es-md hover:text-white hover:bg-yellow-400">
+                      Registro
+                    </li>
+                    <li>
+                      <Link
+                        href="/Ordenes"
+                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
+                      >
+                        Mis pedidos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/register"
+                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
+                      >
+                        Registro
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
               </li>
             </ul>

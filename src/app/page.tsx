@@ -4,9 +4,17 @@ import React from 'react';
 import { titleFont } from '@/config/fonts';
 import { ProductsIndex } from '@/components/products';
 import Sections from '@/components/sections/sections';
+import {loginUser, registerUser} from '@/actions/users-acions'
 
 // Definimos el componente Home
-const Home: React.FC = () => {
+const Home:  React.FC = async () => {
+  const userData = {
+    name: 'jesus',
+    email: 'jesquiliche@hotmail.com',
+    password: '3434324324'
+  };
+  await registerUser(userData)
+  console.log(await loginUser('jesquiliche@hotmail.com','3434324324'))
   return (
     <main className="">
       <div className="w-12/12 mx-auto rounded-lg">
