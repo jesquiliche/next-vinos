@@ -60,7 +60,7 @@ export default function Home() {
             <Link href="/" className="btn-primary">
               Seguir comprando
             </Link>
-            <Link href="/" className="btn-primary">
+            <Link href="/cart/address" className="btn-primary">
               Iniciar orden
             </Link>
           </div>
