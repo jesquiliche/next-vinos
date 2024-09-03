@@ -14,7 +14,7 @@
   @apply border-yellow-300;
 }
 .btn-primary {
-  @apply block bg-sky-950 hover:bg-sky-800 text-gray-50 font-bold rounded-md p-2 w-full text-center;
+  @apply block bg-sky-950 hover:bg-sky-800 text-gray-50 font-bold p-2 w-full text-center;
 }
 .form-control {
   @apply border-gray-800 border-2 rounded-md mx-2;

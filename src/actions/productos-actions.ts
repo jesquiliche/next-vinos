@@ -213,5 +213,32 @@ async function fetchFilteredProducts() {
   }
 }
 
-// Ejecución de la función asíncrona
-fetchFilteredProducts();
+export const getProductsOnSale = async () => {
+  try {
+    const productsOnSale = await prisma.productos.findMany({
+      where: {
+        destacado: "S", // Asegúrate de que este valor coincide con lo que hay en la base de datos
+      },
+    });
+    console.log("Ofertas",productsOnSale)
+    return productsOnSale;
+  } catch (error) {
+    console.error('Error fetching products on sale:', error);
+    throw error; // Re-lanzar el error para manejarlo en un nivel superior si es necesario
+  }
+};
+
+export const getFeaturedProducts = async () => {
+  try {
+    const productsDestacados = await prisma.productos.findMany({
+      where: {
+        destacado: "S", // Ensure this value matches what's in the database
+      },
+    });
+    console.log("Featured Products", productsDestacados);
+    return productsDestacados;
+  } catch (error) {
+    console.error('Error fetching featured products:', error);
+    throw error; // Rethrow the error to handle it further up the call stack if needed
+  }
+};

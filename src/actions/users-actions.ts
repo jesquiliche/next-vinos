@@ -25,26 +25,32 @@ interface LoggedInUser {
  * @throws - Si los campos están vacíos o hay un error en la base de datos.
  */
 export async function registerUser({ name, email, password }: UserData): Promise<User | undefined> {
-    if (!name || !email || !password) {
-      throw new Error('All fields are required');
-    }
-  
-    const hashedPassword = await bcrypt.hash(password, 10);
-  
-    try {
-      return await prisma.users.create({
-        data: {
-          name,
-          email,
-          password: hashedPassword,
-        },
-      });
-    } catch (error) {
+  if (!name || !email || !password) {
+    throw new Error('All fields are required');
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    return await prisma.users.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+  } catch (error: any) {
+    // Manejo específico de errores de Prisma
+    if (error.code === 'P2002') {
+      // P2002 es el código de error de Prisma para violación de la restricción única (email ya registrado)
+      console.error('Error: Email already in use');
+      throw new Error('Email already in use');
+    } else {
       console.error('Error creating user:', error);
-      // Aquí retornamos undefined para indicar que hubo un error.
-      return undefined;
+      throw new Error('An error occurred while creating the user');
     }
   }
+}
 
 /**
  * Inicia sesión de un usuario.

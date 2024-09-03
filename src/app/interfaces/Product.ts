@@ -12,6 +12,8 @@ export interface Producto {
     ano?: number | null;
     sabor?: string | null;
     imagen: string;
+   
+
   }
 
   export interface CartProduct {

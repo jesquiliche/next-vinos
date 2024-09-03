@@ -26,6 +26,7 @@ export async function dbSeeder() {
       });
 
     // Purga la tabla de productos
+    
     await prisma.productos.deleteMany({
         where: {
           id: {
@@ -54,10 +55,16 @@ export async function dbSeeder() {
 
     // Inserta los productos en la base de datos
     for (const producto of productos) {
-        await prisma.productos.create({
-            data: producto,
-        });
-    }
-
+      try {
+          await prisma.productos.create({
+              data: producto,
+          });
+      } catch (error) {
+          console.error('Error creating producto:', producto, error);
+          // Puedes optar por lanzar el error o manejarlo de alguna manera adicional aquí
+          // throw error; // Si quieres propagar el error
+      }
+  }
+  
     console.log('Datos de seed insertados correctamente');
 }

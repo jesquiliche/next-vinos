@@ -252,8 +252,13 @@ const Navbar = () => {
                     className="py-2 text-md text-gray-700"
                     aria-labelledby="dropdownUserMenu"
                   >
-                    <li className="text-md block px-3 text-dark rounded-es-md hover:text-white hover:bg-yellow-400">
-                      Registro
+                 <li>
+                      <Link
+                        href="/auth/register"
+                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
+                      >
+                        Registro
+                      </Link>
                     </li>
                     <li>
                       <Link
@@ -263,14 +268,7 @@ const Navbar = () => {
                         Mis pedidos
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        href="/register"
-                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
-                      >
-                        Registro
-                      </Link>
-                    </li>
+                    
                   </ul>
                 </div>
               </li>

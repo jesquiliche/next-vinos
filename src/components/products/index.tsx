@@ -8,7 +8,7 @@ import { getAllTipos } from "@/actions/tpos-action";
 import { getAllDenominaciones } from "@/actions/denominacines-actions";
 import { Producto } from "@/app/interfaces/Product";
 import ProductView from "./productView";
-import Sections from "../sections/sections";
+
 import { PacificoFont } from "@/config/fonts";
 
 // Definir la interfaz de opciones de filtro

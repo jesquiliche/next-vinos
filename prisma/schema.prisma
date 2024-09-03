@@ -31,12 +31,16 @@ model productos {
   denominacion_id BigInt         @db.UnsignedBigInt
   created_at      DateTime?      @db.Timestamp(0)
   updated_at      DateTime?      @db.Timestamp(0)
+  destacado       String        @default("N")
+  oferta          String        @default("N")
+  stock           Int            @default(200)  // Nueva columna añadida
   denominaciones  denominaciones @relation(fields: [denominacion_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productos_denominacion_id_foreign")
   tipos           tipos          @relation(fields: [tipo_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productos_tipo_id_foreign")
 
   @@index([denominacion_id], map: "productos_denominacion_id_foreign")
   @@index([tipo_id], map: "productos_tipo_id_foreign")
 }
+
 
 model tipos {
   id          BigInt      @id @default(autoincrement()) @db.UnsignedBigInt
