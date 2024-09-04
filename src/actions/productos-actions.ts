@@ -220,7 +220,7 @@ export const getProductsOnSale = async () => {
         destacado: "S", // Asegúrate de que este valor coincide con lo que hay en la base de datos
       },
     });
-    console.log("Ofertas",productsOnSale)
+  
     return productsOnSale;
   } catch (error) {
     console.error('Error fetching products on sale:', error);

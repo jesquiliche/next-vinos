@@ -1,9 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { getAllProvincias } from "@/actions/provincias-actions";
 import { PacificoFont } from "@/config/fonts";
 import { useAddressStore } from "@/store/useAddressStore";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { provincia } from "@prisma/client";
 
 interface FormValues {
   user_id: number;
@@ -22,6 +25,7 @@ interface FormValues {
 const FormularioDireccion: React.FC = () => {
   const address = useAddressStore((state) => state.address);
   const setAddress = useAddressStore((state) => state.setAddress);
+  const [provincias, setProvincias] = useState<provincia[]>([]);
 
   const {
     register,
@@ -44,8 +48,14 @@ const FormularioDireccion: React.FC = () => {
     },
   });
 
-  // Cargar datos desde localStorage cuando el componente se monte
+  // Cargar provincias y datos de localStorage cuando el componente se monte
   useEffect(() => {
+    const fetchProvincias = async () => {
+      const provinciasData:provincia[] = await getAllProvincias();
+      setProvincias(provinciasData);
+    };
+    fetchProvincias();
+
     const storedData = localStorage.getItem("direccion");
     if (storedData) {
       const parsedData: FormValues = JSON.parse(storedData);
@@ -60,29 +70,27 @@ const FormularioDireccion: React.FC = () => {
   }, [setValue, setAddress]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-
     // Guardar los datos en localStorage
     localStorage.setItem("direccion", JSON.stringify(data));
 
-    // Convierte miCheckbox a su valor correspondiente
-    const formattedData = {
-      ...data,
-    };
-
     // Actualiza el estado de la dirección en Zustand
-    setAddress(formattedData);
+    setAddress(data);
   };
 
   return (
     <div className="w-10/12 mx-auto px-4 py-20 bg-white">
-      <h1 className={`${PacificoFont.className} text-4xl font-semibold mb-6 text-center`}>
+      <h1
+        className={`${PacificoFont.className} text-4xl font-semibold mb-6 text-center`}
+      >
         Dirección de entrega
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="mb-4">
-            <label htmlFor="nombre" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="nombre"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Nombre
             </label>
             <input
@@ -92,11 +100,16 @@ const FormularioDireccion: React.FC = () => {
               className="form-control"
               {...register("nombre", { required: "Este campo es obligatorio" })}
             />
-            {errors.nombre && <span className="text-red-500">{errors.nombre.message}</span>}
+            {errors.nombre && (
+              <span className="text-red-500">{errors.nombre.message}</span>
+            )}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="apellidos" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="apellidos"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Apellidos
             </label>
             <input
@@ -104,13 +117,20 @@ const FormularioDireccion: React.FC = () => {
               id="apellidos"
               placeholder="Apellidos"
               className="form-control"
-              {...register("apellidos", { required: "Este campo es obligatorio" })}
+              {...register("apellidos", {
+                required: "Este campo es obligatorio",
+              })}
             />
-            {errors.apellidos && <span className="text-red-500">{errors.apellidos.message}</span>}
+            {errors.apellidos && (
+              <span className="text-red-500">{errors.apellidos.message}</span>
+            )}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="calle" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="calle"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Calle
             </label>
             <input
@@ -120,11 +140,16 @@ const FormularioDireccion: React.FC = () => {
               className="form-control"
               {...register("calle", { required: "Este campo es obligatorio" })}
             />
-            {errors.calle && <span className="text-red-500">{errors.calle.message}</span>}
+            {errors.calle && (
+              <span className="text-red-500">{errors.calle.message}</span>
+            )}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="numero" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="numero"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Número
             </label>
             <input
@@ -134,11 +159,16 @@ const FormularioDireccion: React.FC = () => {
               className="form-control"
               {...register("numero", { required: "Este campo es obligatorio" })}
             />
-            {errors.numero && <span className="text-red-500">{errors.numero.message}</span>}
+            {errors.numero && (
+              <span className="text-red-500">{errors.numero.message}</span>
+            )}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="escalera" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="escalera"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Escalera
             </label>
             <input
@@ -151,7 +181,10 @@ const FormularioDireccion: React.FC = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="piso" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="piso"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Piso
             </label>
             <input
@@ -161,11 +194,16 @@ const FormularioDireccion: React.FC = () => {
               className="form-control"
               {...register("piso", { required: "Este campo es obligatorio" })}
             />
-            {errors.piso && <span className="text-red-500">{errors.piso.message}</span>}
+            {errors.piso && (
+              <span className="text-red-500">{errors.piso.message}</span>
+            )}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="puerta" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="puerta"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Puerta
             </label>
             <input
@@ -178,7 +216,10 @@ const FormularioDireccion: React.FC = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="telefono" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="telefono"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Teléfono
             </label>
             <input
@@ -186,41 +227,64 @@ const FormularioDireccion: React.FC = () => {
               id="telefono"
               placeholder="Teléfono"
               className="form-control"
-              {...register("telefono", { required: "Este campo es obligatorio" })}
+              {...register("telefono", {
+                required: "Este campo es obligatorio",
+              })}
             />
-            {errors.telefono && <span className="text-red-500">{errors.telefono.message}</span>}
+            {errors.telefono && (
+              <span className="text-red-500">{errors.telefono.message}</span>
+            )}
           </div>
 
           <div className="mb-4 col-span-2 md:col-span-1">
-            <label htmlFor="provincia" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="provincia"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Provincia
             </label>
             <select
               id="provincia"
               className="form-control text-xs md:text-sm"
-              {...register("provincia", { required: "Este campo es obligatorio" })}
+              {...register("provincia", {
+                required: "Este campo es obligatorio",
+              })}
             >
-              <option value="">Seleccionar Provincia</option>
-              <option value="08">Barcelona</option>
-              {/* Agrega otras provincias aquí */}
+              <option key="" value="">
+                Seleccionar Provincia
+              </option>
+              {provincias.map((p) => (
+                <option key={p.id} value={p.codigo}>
+                  {p.nombre}
+                </option>
+              ))}
             </select>
-            {errors.provincia && <span className="text-red-500">{errors.provincia.message}</span>}
+            {errors.provincia && (
+              <span className="text-red-500">{errors.provincia.message}</span>
+            )}
           </div>
 
           <div className="mb-4 col-span-2 md:col-span-1">
-            <label htmlFor="poblacion" className="block text-gray-700 text-sm font-bold mb-2">
+            <label
+              htmlFor="poblacion"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
               Población (primero seleccionar Provincia)
             </label>
             <select
               id="poblacion"
               className="form-control text-xs md:text-sm"
-              {...register("poblacion", { required: "Este campo es obligatorio" })}
+              {...register("poblacion", {
+                required: "Este campo es obligatorio",
+              })}
             >
               <option value="">Seleccionar Población</option>
               <option value="08009">Barcelona</option>
               {/* Agrega otras poblaciones aquí */}
             </select>
-            {errors.poblacion && <span className="text-red-500">{errors.poblacion.message}</span>}
+            {errors.poblacion && (
+              <span className="text-red-500">{errors.poblacion.message}</span>
+            )}
           </div>
 
           <div className="mb-4">

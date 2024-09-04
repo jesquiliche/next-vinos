@@ -24,7 +24,7 @@ const RegistrationForm: React.FC = () => {
 
     try {
       const userData = await registerUser({ name, email, password });
-      console.log(userData);
+      
       alert("Registration successful!");
     } catch (error: any) {
       alert('El email está en uso');
