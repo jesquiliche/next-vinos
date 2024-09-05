@@ -13,8 +13,6 @@ export default async function Home({ params }: Props) {
   const initialFilters = {
     denominacion_id: BigInt(id), // Suponiendo que 2 es el ID de una denominación
   };
-  console.log(id);
-  //const product = await getProductDetailsById(id);
   const tipo = await getDenominacionById(+id);
 
   return (

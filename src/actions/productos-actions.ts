@@ -217,7 +217,7 @@ export const getProductsOnSale = async () => {
   try {
     const productsOnSale = await prisma.productos.findMany({
       where: {
-        destacado: "S", // Asegúrate de que este valor coincide con lo que hay en la base de datos
+        oferta: "S", // Asegúrate de que este valor coincide con lo que hay en la base de datos
       },
     });
   
@@ -235,7 +235,7 @@ export const getFeaturedProducts = async () => {
         destacado: "S", // Ensure this value matches what's in the database
       },
     });
-    console.log("Featured Products", productsDestacados);
+    
     return productsDestacados;
   } catch (error) {
     console.error('Error fetching featured products:', error);

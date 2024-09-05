@@ -9,8 +9,7 @@ import { PacificoFont } from "@/config/fonts";
 // Definimos el componente Home
 const Home:  React.FC = async () => {
   const products = await getProductsOnSale();
-  console.log("productos en oferta:",products)
-  
+ 
   return (
     <main className="py-20">
       
