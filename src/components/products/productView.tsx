@@ -31,7 +31,7 @@ const ProductView = ({
   return (
     <div
       key={id.toString()}
-      className="h-full rounded-md p-4 flex flex-col justify-between"
+      className="bg-white h-full rounded-md p-4 flex flex-col justify-between"
     >
       <div>
         <Link href={`/product/${id.toString()}`}>

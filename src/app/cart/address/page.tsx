@@ -7,6 +7,7 @@ import { useAddressStore } from "@/store/useAddressStore";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { provincia } from "@prisma/client";
+import { filterPoblacionByCodigo } from "@/actions/poblacion-actions"; // Asegúrate de que esta ruta sea correcta
 
 interface FormValues {
   user_id: number;
@@ -26,54 +27,89 @@ const FormularioDireccion: React.FC = () => {
   const address = useAddressStore((state) => state.address);
   const setAddress = useAddressStore((state) => state.setAddress);
   const [provincias, setProvincias] = useState<provincia[]>([]);
+  const [poblaciones, setPoblaciones] = useState<any[]>([]); // Ajusta el tipo según la estructura de tu población
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
+    reset, // Añadido para resetear los valores
   } = useForm<FormValues>({
     defaultValues: {
       user_id: 1,
-      nombre: address?.nombre || "",
-      apellidos: address?.apellidos || "",
-      calle: address?.calle || "",
-      numero: address?.numero || "",
-      escalera: address?.escalera || "",
-      piso: address?.piso || "",
-      puerta: address?.puerta || "",
-      telefono: address?.telefono || "",
-      provincia: address?.provincia || "",
-      poblacion: address?.poblacion || "",
+      nombre: "",
+      apellidos: "",
+      calle: "",
+      numero: "",
+      escalera: "",
+      piso: "",
+      puerta: "",
+      telefono: "",
+      provincia: "",
+      poblacion: "",
     },
   });
 
-  // Cargar provincias y datos de localStorage cuando el componente se monte
+  // Cargar provincias cuando el componente se monte
   useEffect(() => {
     const fetchProvincias = async () => {
-      const provinciasData:provincia[] = await getAllProvincias();
+      const provinciasData: provincia[] = await getAllProvincias();
       setProvincias(provinciasData);
     };
     fetchProvincias();
+  }, []);
 
-    const storedData = localStorage.getItem("direccion");
-    if (storedData) {
-      const parsedData: FormValues = JSON.parse(storedData);
-      // Establecer los valores del formulario con los datos de localStorage
-      Object.keys(parsedData).forEach((key) => {
-        setValue(key as keyof FormValues, parsedData[key as keyof FormValues]);
+  // Cargar datos del formulario desde Zustand
+  useEffect(() => {
+    if (address) {
+      reset({
+        user_id: address.user_id,
+        nombre: address.nombre || "",
+        apellidos: address.apellidos || "",
+        calle: address.calle || "",
+        numero: address.numero || "",
+        escalera: address.escalera || "",
+        piso: address.piso || "",
+        puerta: address.puerta || "",
+        telefono: address.telefono || "",
+        provincia: address.provincia || "",
+        poblacion: address.poblacion || "",
       });
 
-      // También puedes actualizar el estado de la dirección en Zustand
-      setAddress(parsedData);
+      // Cargar poblaciones si la provincia ya está definida
+      if (address.provincia) {
+        const fetchPoblaciones = async () => {
+          const poblacionesData = await filterPoblacionByCodigo(address.provincia);
+          setPoblaciones(poblacionesData);
+          // Establecer la población en el formulario si está presente en los datos de dirección
+          if (address.poblacion) {
+            setValue("poblacion", address.poblacion);
+          }
+        };
+        fetchPoblaciones();
+      }
     }
-  }, [setValue, setAddress]);
+  }, [address, reset, setValue]);
+
+  // Manejar el cambio de provincia
+  const handleProvinciaChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const provinciaSeleccionada = event.target.value;
+    setValue("provincia", provinciaSeleccionada);
+    setValue("poblacion", ""); // Limpiar el campo de población cuando cambie la provincia
+
+    if (provinciaSeleccionada) {
+      const poblacionesData = await filterPoblacionByCodigo(provinciaSeleccionada);
+      setPoblaciones(poblacionesData);
+    } else {
+      setPoblaciones([]);
+    }
+  };
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    // Guardar los datos en localStorage
-    localStorage.setItem("direccion", JSON.stringify(data));
-
-    // Actualiza el estado de la dirección en Zustand
     setAddress(data);
   };
 
@@ -249,12 +285,15 @@ const FormularioDireccion: React.FC = () => {
               {...register("provincia", {
                 required: "Este campo es obligatorio",
               })}
+              onChange={handleProvinciaChange}
             >
               <option key="" value="">
                 Seleccionar Provincia
               </option>
               {provincias.map((p) => (
-                <option key={p.id} value={p.codigo}>
+                <option key={p.id} value={p.codigo}
+                selected={p.codigo === address.provincia}
+                >
                   {p.nombre}
                 </option>
               ))}
@@ -269,7 +308,7 @@ const FormularioDireccion: React.FC = () => {
               htmlFor="poblacion"
               className="block text-gray-700 text-sm font-bold mb-2"
             >
-              Población (primero seleccionar Provincia)
+              Población
             </label>
             <select
               id="poblacion"
@@ -278,25 +317,24 @@ const FormularioDireccion: React.FC = () => {
                 required: "Este campo es obligatorio",
               })}
             >
-              <option value="">Seleccionar Población</option>
-              <option value="08009">Barcelona</option>
-              {/* Agrega otras poblaciones aquí */}
+              <option key="" value="">
+                Seleccionar Población
+              </option>
+              {poblaciones.map((p) => (
+                <option key={p.id} value={p.codigo}
+                selected={p.codigo === address.poblacion}>
+                  {p.nombre}
+                </option>
+              ))}
             </select>
             {errors.poblacion && (
               <span className="text-red-500">{errors.poblacion.message}</span>
             )}
           </div>
-
-          <div className="mb-4">
-            <input type="checkbox" id="miCheckbox" />
-            <label htmlFor="miCheckbox" className="ml-2">
-              ¿Recordar Dirección?
-            </label>
-          </div>
         </div>
-        <div className="text-center mt-6 w-2/6 mx-auto">
-          <button type="submit" className="btn-primary text-md">
-            Siguiente
+        <div className="w-1/5 mx-auto">
+          <button type="submit" className="btn-primary">
+            Guardar
           </button>
         </div>
       </form>
