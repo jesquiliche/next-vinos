@@ -38,7 +38,7 @@ export default function Home() {
           </div>
         </div>
         <div className="col-span-2">
-          <div className="border-2 border-gray-400 rounded-md p-4 mx-auto mb-4">
+          <div className="border-2 border-gray-400 rounded-md p-4 mx-auto mb-2">
             <h2 className="text-2xl text-center font-bold">Dirección</h2>
             <p><b>Nombre:</b> {address.nombre}</p>
             <p><b>Apellidos:</b> {address.apellidos}</p>
