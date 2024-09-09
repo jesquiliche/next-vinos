@@ -25,7 +25,7 @@ const ProductView = ({
     };
 
     addToCart(productToAdd);
-    router.push(`/cart/cartcontend`);
+    router.push(`/cartcontend`);
   };
 
   return (
@@ -41,7 +41,7 @@ const ProductView = ({
               alt={nombre}
               width={100}
               height={100}
-              className="mx-auto"
+              className="mx-auto transform transition duration-300 ease-in-out hover:scale-110"
             />
           </div>
           <div>

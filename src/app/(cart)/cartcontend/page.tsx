@@ -51,17 +51,17 @@ export default function Home() {
         <div className="col-span-2">
           <div className="border-2 border-gray-400 rounded-md p-4 mx-auto">
             <h2 className="text-2xl text-center font-bold">Total</h2>
-            <p>Artículos: {totalItems}</p>
-            <p>Subtotal: {(total / 1.21).toFixed(2)}</p>
-            <p>IVA: {(total - total / 1.21).toFixed(2)}</p>
-            <p>Total: {total.toFixed(2)}</p>
+            <p><b>Artículos:</b> {totalItems}</p>
+            <p><b>Subtotal:</b> {(total / 1.21).toFixed(2)}</p>
+            <p><b>IVA:</b> {(total - total / 1.21).toFixed(2)}</p>
+            <p><b>Total:</b> {total.toFixed(2)}</p>
           </div>
           <div className="flex flex-col space-y-2 mt-2">
             <Link href="/" className="btn-primary">
               Seguir comprando
             </Link>
-            <Link href="/cart/address" className="btn-primary">
-              Iniciar orden
+            <Link href="/address" className="btn-primary">
+              Iniciar pedido
             </Link>
           </div>
         </div>

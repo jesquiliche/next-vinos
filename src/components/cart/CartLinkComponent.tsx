@@ -15,7 +15,7 @@ const CartLinkComponent: React.FC = () => {
     setIsLoaded(true);
   }, []);
   return (
-    <Link href={itemCount==0 ?  `/empty` : `/cart/cartcontend`}>
+    <Link href={itemCount==0 ?  `/empty` : `/cartcontend`}>
       <div className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 relative">
         <FaShoppingCart size="24px" className="inline-block relative" />
         {isLoaded && itemCount && itemCount > 0 && (

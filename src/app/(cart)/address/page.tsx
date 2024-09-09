@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
 import { getAllProvincias } from "@/actions/provincias-actions";
 import { PacificoFont } from "@/config/fonts";
@@ -27,8 +27,8 @@ const FormularioDireccion: React.FC = () => {
   const address = useAddressStore((state) => state.address);
   const setAddress = useAddressStore((state) => state.setAddress);
   const [provincias, setProvincias] = useState<provincia[]>([]);
-  const [poblaciones, setPoblaciones] = useState<any[]>([]); // Ajusta el tipo según la estructura de tu población
-
+  const [poblaciones, setPoblaciones] = useState<any[]>([]); 
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -111,6 +111,7 @@ const FormularioDireccion: React.FC = () => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setAddress(data);
+    router.push('/confirm'); 
   };
 
   return (
@@ -259,7 +260,7 @@ const FormularioDireccion: React.FC = () => {
               Teléfono
             </label>
             <input
-              type="text"
+              type="tel"
               id="telefono"
               placeholder="Teléfono"
               className="form-control"
