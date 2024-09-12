@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { titleFont } from "@/config/fonts";
+import { ClerkProvider } from "@clerk/nextjs";
+import Auth from "@/components/auth/Auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${titleFont.className}`}>
-        <Navbar/>
-        {children}</body>
+      <ClerkProvider>
+        <body className={`${titleFont.className}`}>
+          <Navbar />
+          
+          {children}
+        </body>
+      </ClerkProvider>
     </html>
   );
 }

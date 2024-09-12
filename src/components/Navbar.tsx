@@ -7,6 +7,7 @@ import Link from "next/link";
 import { tipos, denominaciones } from "@prisma/client";
 import { PacificoFont } from "@/config/fonts";
 import CartLinkComponent from "./cart/CartLinkComponent";
+import Auth from "@/components/auth/Auth";
 
 const Navbar = () => {
   const [tiposMenuOpen, setTiposMenuOpen] = useState(false);
@@ -14,7 +15,7 @@ const Navbar = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [denominaciones, setDenominaciones] = useState<denominaciones[]>([]);
   const [tipos, setTipos] = useState<tipos[]>([]);
-  
+
   // Referencias para los menús
   const paisMenuRef = useRef<HTMLDivElement>(null);
   const tiposMenuRef = useRef<HTMLDivElement>(null);
@@ -252,14 +253,10 @@ const Navbar = () => {
                     className="py-2 text-md text-gray-700"
                     aria-labelledby="dropdownUserMenu"
                   >
-                 <li>
-                      <Link
-                        href="/auth/register"
-                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
-                      >
-                        Registro
-                      </Link>
+                    <li className="px-4">
+                      <Auth />
                     </li>
+
                     <li>
                       <Link
                         href="/Ordenes"
@@ -268,7 +265,6 @@ const Navbar = () => {
                         Mis pedidos
                       </Link>
                     </li>
-                    
                   </ul>
                 </div>
               </li>

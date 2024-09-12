@@ -19,7 +19,7 @@ const Home:  React.FC = async () => {
  // console.log(await loginUser('jesquiliche@hotmail.com','3434324324'))
 
   return (
-    <main className="">
+    <main className="py-22">
       <div className="w-12/12 mx-auto rounded-lg">
         <img
           src="/portada3.jpg"
