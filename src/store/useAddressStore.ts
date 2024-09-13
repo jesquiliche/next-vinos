@@ -14,6 +14,7 @@ interface State {
     poblacion: string;
     provincia: string;
     user_id: number;
+    userId: string;
     telefono: string;
   };
 
@@ -35,6 +36,7 @@ export const useAddressStore = create<State>()(
         poblacion: "",
         provincia: "",
         user_id: 0,
+        userId:"",
         telefono: ""
       },
 

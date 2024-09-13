@@ -1,11 +1,13 @@
 'use server'
 import { PrismaClient, users as User } from '@prisma/client';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
+import { auth, currentUser } from '@clerk/nextjs/server';
 
 const prisma = new PrismaClient();
 
 // Definir una interfaz para los datos del usuario
 interface UserData {
+  userId: string,
   name: string;
   email: string;
   password: string;
@@ -24,7 +26,7 @@ interface LoggedInUser {
  * @returns - Usuario creado.
  * @throws - Si los campos están vacíos o hay un error en la base de datos.
  */
-export async function registerUser({ name, email, password }: UserData): Promise<User | undefined> {
+export async function registerUser({ name, email, password,userId }: UserData): Promise<User | undefined> {
   if (!name || !email || !password) {
     throw new Error('All fields are required');
   }
@@ -34,6 +36,7 @@ export async function registerUser({ name, email, password }: UserData): Promise
   try {
     return await prisma.users.create({
       data: {
+        userId,
         name,
         email,
         password: hashedPassword,
@@ -95,5 +98,28 @@ export async function findUserByEmail(email: string): Promise<User | null> {
     });
   } catch (error) {
     throw new Error('Error finding user: ');
+  }
+}
+
+
+
+
+export async function syncUser() {
+  const user = await currentUser();
+
+  if (user) {
+    await prisma.users.upsert({
+      where: { userId:user.id },
+      update: {
+        email: user.primaryEmailAddress?.emailAddress,
+        name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+      },
+      create: {
+        userId: user.id,
+        password:"123456",
+        email: user.primaryEmailAddress?.emailAddress ?? "",
+        name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+      },
+    });
   }
 }

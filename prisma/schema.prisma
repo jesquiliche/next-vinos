@@ -52,6 +52,7 @@ model tipos {
 
 model users {
   id                BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  userId            String    @unique @db.VarChar(255)
   name              String    @unique @db.VarChar(255) // Nombre único
   email             String    @unique(map: "users_email_unique") @db.VarChar(255)
   email_verified_at DateTime? @db.Timestamp(0)
@@ -72,3 +73,65 @@ model poblacion {
   codigo String @db.VarChar(5)
   nombre String @unique(map: "poblacion_nombre_unique") @db.VarChar(100)
 }
+
+
+model Orden {
+  id            BigInt      @id @default(autoincrement())
+  user_id       BigInt
+  subtotal      Decimal       @db.Decimal(8, 2)
+  total         Decimal       @db.Decimal(8, 2)
+  iva           Decimal       @db.Decimal(8, 2)
+  pagado        String      @db.VarChar(1)
+  entregado     String      @db.VarChar(1)
+  transactionId String?     @db.VarChar(255)
+  articulos     Int
+
+  @@map("ordenes") // Este mapa es opcional, si deseas que el nombre en la BD sea "ordenes"
+}
+
+model Detalle {
+  id         BigInt    @id @default(autoincrement())
+  orden_id   BigInt
+  cerveza_id BigInt
+  precio     Decimal   @db.Decimal(8, 2)
+  cantidad   Int
+
+  @@map("detalles")
+}
+
+model Direccion {
+  id         BigInt    @id @default(autoincrement())
+  nombre     String    @db.VarChar(100)
+  apellidos  String    @db.VarChar(150)
+  calle      String    @db.VarChar(150)
+  numero     String    @db.VarChar(5)
+  escalera   String?   @db.VarChar(5)
+  piso       String?   @db.VarChar(20)
+  puerta     String?   @db.VarChar(5)
+  poblacion  String    @db.VarChar(5)
+  provincia  String    @db.VarChar(2)
+  user_id    BigInt
+  telefono   String    @db.VarChar(15)
+
+  @@map("direcciones")
+}
+
+model OrdenDireccion {
+  id         BigInt    @id @default(autoincrement())
+  nombre     String    @db.VarChar(100)
+  apellidos  String    @db.VarChar(150)
+  calle      String    @db.VarChar(150)
+  numero     String    @db.VarChar(5)
+  escalera   String?   @db.VarChar(5)
+  piso       String?   @db.VarChar(20)
+  puerta     String?   @db.VarChar(5)
+  poblacion  String    @db.VarChar(5)
+  provincia  String    @db.VarChar(2)
+  user_id    BigInt
+  orden_id   BigInt
+  telefono   String    @db.VarChar(15)
+  
+  @@map("orden_direcciones")
+}
+
+

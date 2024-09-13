@@ -8,9 +8,11 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { provincia } from "@prisma/client";
 import { filterPoblacionByCodigo } from "@/actions/poblacion-actions"; // Asegúrate de que esta ruta sea correcta
+import { useAuth } from '@clerk/nextjs';
 
 interface FormValues {
   user_id: number;
+  userId:string;
   nombre: string;
   apellidos: string;
   calle: string;
@@ -29,16 +31,19 @@ const FormularioDireccion: React.FC = () => {
   const [provincias, setProvincias] = useState<provincia[]>([]);
   const [poblaciones, setPoblaciones] = useState<any[]>([]); 
   const router = useRouter();
+  const user = useAuth()
+  console.log(user);
+
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
     reset, // Añadido para resetear los valores
   } = useForm<FormValues>({
     defaultValues: {
       user_id: 1,
+      userId: "",
       nombre: "",
       apellidos: "",
       calle: "",
@@ -66,6 +71,7 @@ const FormularioDireccion: React.FC = () => {
     if (address) {
       reset({
         user_id: address.user_id,
+        userId: address.userId || (user.userId ?? ""),
         nombre: address.nombre || "",
         apellidos: address.apellidos || "",
         calle: address.calle || "",
