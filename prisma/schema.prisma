@@ -93,7 +93,7 @@ model Orden {
 model Detalle {
   id         BigInt    @id @default(autoincrement())
   orden_id   BigInt
-  cerveza_id BigInt
+  product_id BigInt
   precio     Decimal   @db.Decimal(8, 2)
   cantidad   Int
 
