@@ -1,9 +1,10 @@
-'use server';
+"use server";
 
 import { Address } from "@/interfaces/address";
 import { CartProduct } from "@/interfaces/Product";
 import { getProduct } from "./productos-actions";
 import { PrismaClient } from "@prisma/client";
+import { error } from "console";
 
 const prisma = new PrismaClient();
 
@@ -31,30 +32,39 @@ export async function StoreOrden(address: Address, cartProduct: CartProduct[]) {
       // Crear la nueva orden
       const orden = await tx.orden.create({
         data: {
-          user_id: BigInt(address.user_id),     // Asegúrate de usar BigInt si es necesario
-          userId: address.userId,                // Asegúrate de que 'userId' sea el nombre correcto
-          subtotal: subtotal,       // Decimal
-          total: total,             // Decimal
-          iva: iva,                 // Decimal
-          pagado: 'N',              // Pagado (1 char)
-          entregado: 'N',           // No entregado (1 char)
-          transactionId: null,      // Opcional
-          articulos: articulos,     // Número de artículos
+          user_id: BigInt(address.user_id), // Asegúrate de usar BigInt si es necesario
+          userId: address.userId, // Asegúrate de que 'userId' sea el nombre correcto
+          subtotal: subtotal, // Decimal
+          total: total, // Decimal
+          iva: iva, // Decimal
+          pagado: "N", // Pagado (1 char)
+          entregado: "N", // No entregado (1 char)
+          transactionId: null, // Opcional
+          articulos: articulos, // Número de artículos
         },
       });
 
       // Crear los detalles de la orden
       for (const p of cartProduct) {
         const product = await getProduct(p.id);
-        
+        if (p.quantity > product!.stock) {
+          throw new Error(`No hay suficiente stock para ${product!.nombre}`);
+        }
         if (product) {
-          console.log(product)
+          console.log(product);
           await tx.detalle.create({
             data: {
-              orden_id: orden.id,       // ID de la orden (correctamente referenciado)
-              product_id: product.id,   // ID del producto asociado
-              precio: product.precio,   // Precio del artículo (decimal)
-              cantidad: p.quantity,     // Cantidad del artículo
+              orden_id: orden.id, // ID de la orden (correctamente referenciado)
+              product_id: product.id, // ID del producto asociado
+              precio: product.precio, // Precio del artículo (decimal)
+              cantidad: p.quantity, // Cantidad del artículo
+            },
+          });
+          // Actualizar el stock del producto
+          await tx.productos.update({
+            where: { id: product.id },
+            data: {
+              stock: product.stock - p.quantity, // Restar la cantidad del stock
             },
           });
         }
@@ -63,7 +73,7 @@ export async function StoreOrden(address: Address, cartProduct: CartProduct[]) {
       return orden; // Devuelve la orden creada
     });
 
-    console.log('Orden creada con ID:', nuevaOrden.id);
+    console.log("Orden creada con ID:", nuevaOrden.id);
   } catch (error) {
     console.error("Error al procesar la orden:", error);
     throw error; // Lanza el error para que pueda ser manejado fuera de la función
