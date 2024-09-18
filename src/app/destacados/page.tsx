@@ -2,7 +2,7 @@
 
 import { getFeaturedProducts } from "@/actions/productos-actions";
 import ProductView from "@/components/products/productView";
-import Producto from "../interfaces/Product";
+import Producto from "../../interfaces/Product";
 import { PacificoFont } from "@/config/fonts";
 
 

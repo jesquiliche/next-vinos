@@ -20,7 +20,7 @@ const Home:  React.FC = async () => {
 
   return (
     <main className="py-22">
-      <div className="w-12/12 mx-auto rounded-lg">
+      <div className="w-12/12 py-20 mx-auto rounded-lg">
         <img
           src="/portada3.jpg"
           className="w-full shadow-lg object-cover h-[600px]"

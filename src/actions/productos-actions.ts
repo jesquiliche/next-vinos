@@ -1,9 +1,21 @@
 "use server";
 
-import { ProductoDetalle } from "@/app/interfaces/Product";
+import { ProductoDetalle } from "@/interfaces/Product";
 import { PrismaClient, productos,tipos } from "@prisma/client";
 
 const prisma = new PrismaClient();
+
+export async function getProduct(id:any) {
+  try {
+    const producto = await prisma.productos.findUnique({where: { id:id }});
+    return producto;
+  } catch (error) {
+    console.error("Error al obtener los productos:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 
 export async function getAllProducts(): Promise<productos[]> {
   try {
@@ -242,3 +254,4 @@ export const getFeaturedProducts = async () => {
     throw error; // Rethrow the error to handle it further up the call stack if needed
   }
 };
+

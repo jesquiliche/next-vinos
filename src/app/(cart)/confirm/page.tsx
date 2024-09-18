@@ -4,6 +4,7 @@ import { PacificoFont } from "@/config/fonts";
 import useCartStore from "@/store/useCartstore";
 import { useAddressStore } from "@/store/useAddressStore";
 import Link from "next/link";
+import { StoreOrden } from "@/actions/orden-actions";
 
 export default function Home() {
   const address = useAddressStore((state) => state.address);
@@ -12,6 +13,10 @@ export default function Home() {
   const getTotal = useCartStore((state) => state.getTotalCost);
   const total = getTotal();
 
+  StoreOrden(address,cartItems);
+
+  
+  
   return (
     <div className="w-11/12 mx-auto py-20">
       <h1 className={`${PacificoFont.className} text-center text-4xl`}>

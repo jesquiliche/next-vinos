@@ -19,7 +19,7 @@ export interface Producto {
   export interface CartProduct {
     id: number;
     nombre: string;
-    precio: Decimal;
+    precio: number;
     imagen: string;
     quantity: number;
   }

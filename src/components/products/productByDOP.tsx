@@ -3,7 +3,7 @@ import {
 } from "@/actions/productos-actions";
 import React from "react";
 
-import { Producto } from "@/app/interfaces/Product";
+import { Producto } from "@/interfaces/Product";
 import ProductView from "./productView";
 
 interface Props {

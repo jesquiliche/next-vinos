@@ -207,6 +207,9 @@ const Navbar = () => {
               <li>
                 <CartLinkComponent />
               </li>
+              <li className="">
+                <Auth />
+              </li>
               <li>
                 <button
                   id="dropdownUserMenu"
@@ -244,7 +247,7 @@ const Navbar = () => {
                 <div
                   ref={userMenuRef}
                   id="userMenu"
-                  onMouseLeave={() => setUserMenuOpen(false)}
+                 onMouseLeave={() => setUserMenuOpen(false)}
                   className={`absolute right-0 mt-2 w-44 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow ${
                     userMenuOpen ? "block" : "hidden"
                   }`}
@@ -253,9 +256,7 @@ const Navbar = () => {
                     className="py-2 text-md text-gray-700"
                     aria-labelledby="dropdownUserMenu"
                   >
-                    <li className="px-4">
-                      <Auth />
-                    </li>
+                    
 
                     <li>
                       <Link

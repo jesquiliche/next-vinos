@@ -6,7 +6,7 @@ import {
 } from "@/actions/productos-actions";
 import { getAllTipos } from "@/actions/tpos-action";
 import { getAllDenominaciones } from "@/actions/denominacines-actions";
-import { Producto } from "@/app/interfaces/Product";
+import { Producto } from "@/interfaces/Product";
 import ProductView from "./productView";
 
 import { PacificoFont } from "@/config/fonts";

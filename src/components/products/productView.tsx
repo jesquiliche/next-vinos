@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Producto } from "@/app/interfaces/Product";
+import { Producto } from "@/interfaces/Product";
 import Link from "next/link";
 import useCartStore from "@/store/useCartstore"; // Asegúrate de usar la ruta correcta
 import { useRouter } from 'next/navigation'
