@@ -69,7 +69,26 @@ export async function StoreOrden(address: Address, cartProduct: CartProduct[]) {
         }
       }
 
-      return orden; // Devuelve la orden creada
+      // Crear la dirección en el modelo 'ordenDireccion'
+      await tx.ordenDireccion.create({
+        data: {
+          orden_id: orden.id, // Relacionar con la orden
+          nombre: address.nombre,
+          apellidos: address.apellidos,
+          calle: address.calle,
+          numero: address.numero,
+          escalera: address.escalera, // Campo opcional (puede ser null)
+          piso: address.piso, // Campo opcional (puede ser null)
+          puerta: address.puerta, // Campo opcional (puede ser null)
+          poblacion: address.poblacion,
+          provincia: address.provincia, // Código de la provincia (por ejemplo, Madrid)
+          user_id: BigInt(address.user_id), // Asegúrate de usar BigInt si es necesario
+          userId: address.userId,
+          telefono: address.telefono, // Número de teléfono
+        },
+      });
+
+      return orden; // Devuelve la orden creada para uso posterior
     });
 
     console.log("Orden creada con ID:", nuevaOrden.id);
