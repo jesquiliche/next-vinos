@@ -4,7 +4,6 @@ import { Address } from "@/interfaces/address";
 import { CartProduct } from "@/interfaces/Product";
 import { getProduct } from "./productos-actions";
 import { PrismaClient } from "@prisma/client";
-import { error } from "console";
 
 const prisma = new PrismaClient();
 
