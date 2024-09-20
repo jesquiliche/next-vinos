@@ -60,8 +60,32 @@ model users {
   remember_token    String?   @db.VarChar(100)
   created_at        DateTime? @db.Timestamp(0)
   updated_at        DateTime? @db.Timestamp(0)
+
+  // Relación con Orden (un usuario puede tener varias órdenes)
+  ordenes           Orden[]   @relation("UserOrden")
 }
 
+
+model Orden {
+  id            BigInt    @id @default(autoincrement())
+  user_id       BigInt    @db.UnsignedBigInt
+  userId        String
+  subtotal      Decimal   @db.Decimal(8, 2)
+  total         Decimal   @db.Decimal(8, 2)
+  iva           Decimal   @db.Decimal(8, 2)
+  pagado        String    @db.VarChar(1)
+  entregado     String    @db.VarChar(1)
+  transactionId String?   @db.VarChar(255)
+  articulos     Int
+
+  // Relación con users (una orden está asociada a un usuario)
+  user          users     @relation("UserOrden", fields: [user_id], references: [id], onDelete: Cascade)
+
+  // Relación con Detalle
+  detalles      Detalle[] @relation("OrdenADetalle")
+
+  @@map("ordenes")
+}
 model provincia {
   id     BigInt @id @default(autoincrement()) @db.UnsignedBigInt
   codigo String @db.VarChar(2)
@@ -74,32 +98,20 @@ model poblacion {
   nombre String @unique(map: "poblacion_nombre_unique") @db.VarChar(100)
 }
 
-model Orden {
-  id        BigInt  @id @default(autoincrement())
-  user_id   BigInt
-  userId    String
-  subtotal  Decimal @db.Decimal(8, 2)
-  total     Decimal @db.Decimal(8, 2)
-  iva       Decimal @db.Decimal(8, 2)
-  pagado    String  @db.VarChar(1)
-  entregado String  @db.VarChar(1)
-
-  transactionId String? @db.VarChar(255)
-  articulos     Int
-
-  @@map("ordenes") // Este mapa es opcional, si deseas que el nombre en la BD sea "ordenes"
-}
-
 model Detalle {
-  id         BigInt  @id @default(autoincrement())
+  id         BigInt   @id @default(autoincrement())
   orden_id   BigInt
-  product_id BigInt
-  precio     Decimal @db.Decimal(8, 2)
+  product_id BigInt   @db.UnsignedBigInt
+  precio     Decimal  @db.Decimal(8, 2)
   cantidad   Int
-  imagen     String? @db.VarChar(255)
+  imagen     String?  @db.VarChar(255)
+
+  // Relación con Orden
+  orden      Orden    @relation("OrdenADetalle", fields: [orden_id], references: [id], onDelete: Cascade) // Clave foránea con onDelete en cascada
 
   @@map("detalles")
 }
+
 
 model Direccion {
   id        BigInt  @id @default(autoincrement())
@@ -120,7 +132,6 @@ model Direccion {
 
 model OrdenDireccion {
   id        BigInt  @id @default(autoincrement())
-  orden_id  BigInt
   nombre    String  @db.VarChar(100)
   apellidos String  @db.VarChar(150)
   calle     String  @db.VarChar(150)
@@ -131,9 +142,9 @@ model OrdenDireccion {
   poblacion String  @db.VarChar(5)
   provincia String  @db.VarChar(2)
   user_id   BigInt
-  userId    String  @db.VarChar(255)
-
-  telefono String @db.VarChar(15)
+  userId    String
+  orden_id  BigInt
+  telefono  String  @db.VarChar(15)
 
   @@map("orden_direcciones")
 }
