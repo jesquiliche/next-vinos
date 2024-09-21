@@ -5,6 +5,7 @@ import useCartStore from "@/store/useCartstore";
 import { useAddressStore } from "@/store/useAddressStore";
 import Link from "next/link";
 import { StoreOrden } from "@/actions/orden-actions";
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const address = useAddressStore((state) => state.address);
@@ -12,11 +13,15 @@ export default function Home() {
   const totalItems = useCartStore((state) => state.totalItems);
   const getTotal = useCartStore((state) => state.getTotalCost);
   const total = getTotal();
+  const router = useRouter();
+ 
 
-  StoreOrden(address,cartItems);
+  const handleButton=async ()=>{
+    const orden= await StoreOrden(address, cartItems);
+    router.push(`/checkout/${orden}`);
+    console.log("Entro")
+  }
 
-  
-  
   return (
     <div className="w-11/12 mx-auto py-20">
       <h1 className={`${PacificoFont.className} text-center text-4xl`}>
@@ -45,31 +50,59 @@ export default function Home() {
         <div className="col-span-2">
           <div className="border-2 border-gray-400 rounded-md p-4 mx-auto mb-2">
             <h2 className="text-2xl text-center font-bold">Dirección</h2>
-            <p><b>Nombre:</b> {address.nombre}</p>
-            <p><b>Apellidos:</b> {address.apellidos}</p>
-            <p><b>Calle:</b> {address.calle}</p>
-            <p><b>Número:</b> {address.numero}</p>
-            <p><b>Escalera:</b> {address.escalera}</p>
-            <p><b>Piso:</b> {address.piso}</p>
-            <p><b>Puerta:</b> {address.puerta}</p>
-            <p><b>Población:</b> {address.poblacion}</p>
-            <p><b>Provincia:</b> {address.provincia}</p>
-            <p><b>Teléfono:</b> {address.telefono}</p>
+            <p>
+              <b>Nombre:</b> {address.nombre}
+            </p>
+            <p>
+              <b>Apellidos:</b> {address.apellidos}
+            </p>
+            <p>
+              <b>Calle:</b> {address.calle}
+            </p>
+            <p>
+              <b>Número:</b> {address.numero}
+            </p>
+            <p>
+              <b>Escalera:</b> {address.escalera}
+            </p>
+            <p>
+              <b>Piso:</b> {address.piso}
+            </p>
+            <p>
+              <b>Puerta:</b> {address.puerta}
+            </p>
+            <p>
+              <b>Población:</b> {address.poblacion}
+            </p>
+            <p>
+              <b>Provincia:</b> {address.provincia}
+            </p>
+            <p>
+              <b>Teléfono:</b> {address.telefono}
+            </p>
           </div>
           <div className="border-2 border-gray-400 rounded-md p-4 mx-auto">
             <h2 className="text-2xl text-center font-bold">Total</h2>
-            <p><b>Artículos:</b> {totalItems}</p>
-            <p><b>Subtotal:</b> {(total / 1.21).toFixed(2)}</p>
-            <p><b>IVA:</b> {(total - total / 1.21).toFixed(2)}</p>
-            <p><b>Total:</b> {total.toFixed(2)}</p>
+            <p>
+              <b>Artículos:</b> {totalItems}
+            </p>
+            <p>
+              <b>Subtotal:</b> {(total / 1.21).toFixed(2)}
+            </p>
+            <p>
+              <b>IVA:</b> {(total - total / 1.21).toFixed(2)}
+            </p>
+            <p>
+              <b>Total:</b> {total.toFixed(2)}
+            </p>
           </div>
           <div className="flex flex-col space-y-2 mt-2">
-            <Link href="/" className="btn-primary">
-              Seguir comprando
-            </Link>
-            <Link href="/address" className="btn-primary">
-              Iniciar orden
-            </Link>
+            <button
+              className="btn-primary mt-2"
+              onClick={handleButton}
+            >
+              Confirmar orden
+            </button>
           </div>
         </div>
       </div>

@@ -57,6 +57,8 @@ export async function StoreOrden(address: Address, cartProduct: CartProduct[]) {
               product_id: product.id, // ID del producto asociado
               precio: product.precio, // Precio del artículo (decimal)
               cantidad: p.quantity, // Cantidad del artículo
+              nombre: product.nombre,
+              imagen: product.imagen
             },
           });
           // Actualizar el stock del producto
@@ -90,12 +92,69 @@ export async function StoreOrden(address: Address, cartProduct: CartProduct[]) {
 
       return orden; // Devuelve la orden creada para uso posterior
     });
-
-    console.log("Orden creada con ID:", nuevaOrden.id);
+    return nuevaOrden.id;
+    
   } catch (error) {
     console.error("Error al procesar la orden:", error);
     throw error; // Lanza el error para que pueda ser manejado fuera de la función
   } finally {
     await prisma.$disconnect(); // Asegúrate de desconectar Prisma al final
+  }
+}
+
+
+// Función para obtener todos los detalles de una orden por su ID
+export async function getOrderDetailsById(ordenId: number | bigint) {
+  try {
+    const detalles = await prisma.detalle.findMany({
+      where: {
+        orden_id: ordenId,  // Buscar detalles relacionados con la orden_id
+      },
+     
+    });
+
+    return detalles;  // Retornar los detalles encontrados
+  } catch (error) {
+    console.error("Error al obtener los detalles de la orden:", error);
+    throw error;  // Manejar errores si es necesario
+  } finally {
+    await prisma.$disconnect();  // Desconectar Prisma al final
+  }
+}
+
+
+// Función para obtener la dirección de una orden por su ID
+export async function getAddressByOrderId(ordenId: number) {
+  try {
+    const address = await prisma.ordenDireccion.findFirst({
+      where: {
+        orden_id: ordenId, // Buscar la dirección asociada a la orden_id
+      },
+    });
+
+    return address; // Retornar la dirección encontrada
+  } catch (error) {
+    console.error("Error al obtener la dirección de la orden:", error);
+    throw error; // Manejar errores si es necesario
+  } finally {
+    await prisma.$disconnect(); // Desconectar Prisma al final
+  }
+}
+
+// Función para obtener una orden por su ID
+export async function getOrderById(ordenId: number | bigint) {
+  try {
+    const orden = await prisma.orden.findUnique({
+      where: {
+        id: ordenId,  // Buscar la orden usando su campo 'id' único
+      },
+    });
+
+    return orden;  // Retornar la orden encontrada
+  } catch (error) {
+    console.error("Error al obtener la orden:", error);
+    throw error;  // Manejar errores si es necesario
+  } finally {
+    await prisma.$disconnect();  // Desconectar Prisma al final
   }
 }

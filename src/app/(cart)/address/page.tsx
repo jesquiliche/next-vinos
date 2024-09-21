@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getAllProvincias } from "@/actions/provincias-actions";
 import { PacificoFont } from "@/config/fonts";
@@ -8,11 +8,12 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { provincia } from "@prisma/client";
 import { filterPoblacionByCodigo } from "@/actions/poblacion-actions"; // Asegúrate de que esta ruta sea correcta
-import { useAuth } from '@clerk/nextjs';
+
+import { useUser } from "@clerk/nextjs";
 
 interface FormValues {
   user_id: number;
-  userId:string;
+  userId: string;
   nombre: string;
   apellidos: string;
   calle: string;
@@ -29,10 +30,12 @@ const FormularioDireccion: React.FC = () => {
   const address = useAddressStore((state) => state.address);
   const setAddress = useAddressStore((state) => state.setAddress);
   const [provincias, setProvincias] = useState<provincia[]>([]);
-  const [poblaciones, setPoblaciones] = useState<any[]>([]); 
+  const [poblaciones, setPoblaciones] = useState<any[]>([]);
   const router = useRouter();
-  const user = useAuth()
+  const { isLoaded, isSignedIn, user } = useUser();
   console.log(user);
+
+ 
 
   const {
     register,
@@ -71,7 +74,7 @@ const FormularioDireccion: React.FC = () => {
     if (address) {
       reset({
         user_id: address.user_id,
-        userId: address.userId || (user.userId ?? ""),
+        userId: address.userId || (user?.id ?? ""),
         nombre: address.nombre || "",
         apellidos: address.apellidos || "",
         calle: address.calle || "",
@@ -87,7 +90,9 @@ const FormularioDireccion: React.FC = () => {
       // Cargar poblaciones si la provincia ya está definida
       if (address.provincia) {
         const fetchPoblaciones = async () => {
-          const poblacionesData = await filterPoblacionByCodigo(address.provincia);
+          const poblacionesData = await filterPoblacionByCodigo(
+            address.provincia
+          );
           setPoblaciones(poblacionesData);
           // Establecer la población en el formulario si está presente en los datos de dirección
           if (address.poblacion) {
@@ -108,7 +113,9 @@ const FormularioDireccion: React.FC = () => {
     setValue("poblacion", ""); // Limpiar el campo de población cuando cambie la provincia
 
     if (provinciaSeleccionada) {
-      const poblacionesData = await filterPoblacionByCodigo(provinciaSeleccionada);
+      const poblacionesData = await filterPoblacionByCodigo(
+        provinciaSeleccionada
+      );
       setPoblaciones(poblacionesData);
     } else {
       setPoblaciones([]);
@@ -117,7 +124,7 @@ const FormularioDireccion: React.FC = () => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setAddress(data);
-    router.push('/confirm'); 
+    router.push("/confirm");
   };
 
   return (
@@ -298,8 +305,10 @@ const FormularioDireccion: React.FC = () => {
                 Seleccionar Provincia
               </option>
               {provincias.map((p) => (
-                <option key={p.id} value={p.codigo}
-                selected={p.codigo === address.provincia}
+                <option
+                  key={p.id}
+                  value={p.codigo}
+                  selected={p.codigo === address.provincia}
                 >
                   {p.nombre}
                 </option>
@@ -328,8 +337,11 @@ const FormularioDireccion: React.FC = () => {
                 Seleccionar Población
               </option>
               {poblaciones.map((p) => (
-                <option key={p.id} value={p.codigo}
-                selected={p.codigo === address.poblacion}>
+                <option
+                  key={p.id}
+                  value={p.codigo}
+                  selected={p.codigo === address.poblacion}
+                >
                   {p.nombre}
                 </option>
               ))}
