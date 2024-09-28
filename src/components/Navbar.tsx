@@ -107,7 +107,7 @@ const Navbar = () => {
                     setTiposMenuOpen(false);
                     setUserMenuOpen(false);
                   }}
-                  className="flex items-center justify-between py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 md:w-auto"
+                  className="flex items-center justify-between py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-gray-500 md:p-0 md:w-auto"
                 >
                   D.O.P{" "}
                   <svg
@@ -158,7 +158,7 @@ const Navbar = () => {
                     setPaisMenuOpen(false);
                     setUserMenuOpen(false);
                   }}
-                  className="flex items-center justify-between w-full py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 md:w-auto"
+                  className="flex items-center justify-between w-full py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-gray-500 md:p-0 md:w-auto"
                 >
                   Tipo{" "}
                   <svg
@@ -195,7 +195,7 @@ const Navbar = () => {
                         <li key={t.id}>
                           <Link
                             href={`/Tipos/${t.id}`}
-                            className="block text-dark hover:text-white px-4 hover:bg-yellow-400 hover:rounded-md"
+                            className="block text-dark hover:text-white px-4 hover:bg-gray-900 hover:rounded-md"
                           >
                             {t.nombre}
                           </Link>
@@ -214,7 +214,7 @@ const Navbar = () => {
                 <button
                   id="dropdownUserMenu"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center justify-between w-full py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-400 md:p-0 md:w-auto"
+                  className="flex items-center justify-between w-full py-2 pl-2 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-gray-500 md:p-0 md:w-auto"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -261,7 +261,7 @@ const Navbar = () => {
                     <li>
                       <Link
                         href="/Ordenes"
-                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-yellow-400"
+                        className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-gray-500"
                       >
                         Mis pedidos
                       </Link>
