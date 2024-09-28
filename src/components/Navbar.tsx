@@ -139,7 +139,7 @@ const Navbar = () => {
                       denominaciones.map((d) => (
                         <li key={d.id}>
                           <Link
-                            href={`/Tipos/${d.id}`}
+                            href={`/dop/${d.id}`}
                             className="text-md block px-4 text-dark rounded-es-md hover:text-white hover:bg-gray-900"
                             onClick={() => setPaisMenuOpen(false)}
                           >
@@ -194,7 +194,7 @@ const Navbar = () => {
                       tipos.map((t) => (
                         <li key={t.id}>
                           <Link
-                            href={`/Tipos/${t.id}`}
+                            href={`/dop/${t.id}`}
                             className="block text-dark hover:text-white px-4 hover:bg-gray-900 hover:rounded-md"
                           >
                             {t.nombre}
