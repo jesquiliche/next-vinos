@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { titleFont } from "@/config/fonts";
 import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from '@clerk/localizations'
+import { PayPalScriptProvider } from "@paypal/react-paypal-js"; 
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+        
       <ClerkProvider localization={esES}>
         <body className={`${titleFont.className}`}>
           <Navbar />
@@ -27,6 +29,7 @@ export default function RootLayout({
           {children}
         </body>
       </ClerkProvider>
+    
     </html>
   );
 }

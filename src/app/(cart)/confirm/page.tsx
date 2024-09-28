@@ -5,22 +5,32 @@ import useCartStore from "@/store/useCartstore";
 import { useAddressStore } from "@/store/useAddressStore";
 import Link from "next/link";
 import { StoreOrden } from "@/actions/orden-actions";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { ErrorProps } from "next/error";
+import { useState } from "react";
 
 export default function Home() {
+  const [error,setError]=useState('');
   const address = useAddressStore((state) => state.address);
   const cartItems = useCartStore((state) => state.cart);
   const totalItems = useCartStore((state) => state.totalItems);
   const getTotal = useCartStore((state) => state.getTotalCost);
   const total = getTotal();
   const router = useRouter();
- 
 
-  const handleButton=async ()=>{
-    const orden= await StoreOrden(address, cartItems);
-    router.push(`/checkout/${orden}`);
-    console.log("Entro")
-  }
+  const handleButton = async () => {
+    try {
+      const orden = await StoreOrden(address, cartItems);
+      if (orden.ok) {
+        router.push(`/checkout/${orden.id}`);
+      } else {
+        setError(orden.message);
+      }
+    } catch (error: any) {
+      console.error("Error al procesar la orden:", error.message);
+      
+    }
+  };
 
   return (
     <div className="w-11/12 mx-auto py-20">
@@ -34,7 +44,7 @@ export default function Home() {
               <div key={p.id} className="p-2">
                 <img src={p.imagen} alt={p.nombre} className="w-28 mx-auto" />
                 <Link href={`/product/${p.id}`}>
-                  <p className="text-center font-bold underline truncate ">
+                  <p className="text-center font-bold underline truncate">
                     {p.nombre}
                   </p>
                 </Link>
@@ -97,10 +107,9 @@ export default function Home() {
             </p>
           </div>
           <div className="flex flex-col space-y-2 mt-2">
-            <button
-              className="btn-primary mt-2"
-              onClick={handleButton}
-            >
+            
+            <span className="text-red-600 text-sm">{error}</span>
+            <button className="btn-primary mt-2" onClick={handleButton}>
               Confirmar orden
             </button>
           </div>

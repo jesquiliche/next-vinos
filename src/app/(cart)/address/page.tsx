@@ -33,9 +33,7 @@ const FormularioDireccion: React.FC = () => {
   const [poblaciones, setPoblaciones] = useState<any[]>([]);
   const router = useRouter();
   const { isLoaded, isSignedIn, user } = useUser();
-  console.log(user);
-
- 
+   
 
   const {
     register,

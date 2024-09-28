@@ -11,9 +11,13 @@ interface Props {
 
 export default async function Home({ params }: Props) {
   const id = Number(params.id);
-  const articulos = await getOrderDetailsById(id);
-  const address= await getAddressByOrderId(id);
-  const order=await getOrderById(id);
+  // Ejecutar todas las llamadas asíncronas en paralelo
+  const [articulos, address, order] = await Promise.all([
+    getOrderDetailsById(id),
+    getAddressByOrderId(id),
+    getOrderById(id)
+  ]);
+  
   return (
     <div className="w-11/12 mx-auto py-20">
       <h1
